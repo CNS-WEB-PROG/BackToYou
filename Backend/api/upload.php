@@ -18,7 +18,10 @@
         $destination = $uploadDir . $filename;
 
         if (move_uploaded_file($file['tmp_name'], $destination)) {
-            echo json_encode(['success' => true, 'photo_url' => '/uploads/' . $filename]);
+
+            $publicUrl = '/backend/uploads/' . $filename;
+
+            echo json_encode(['success' => true, 'photo_url' => $publicUrl]);
         }else{
             echo json_encode(['success' => false, 'error' => 'Upload failed.']);
         }
