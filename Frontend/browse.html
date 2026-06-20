@@ -1,0 +1,263 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Browse Items — BackToYou</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+ 
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="../index.html" class="nav__logo">
+      <span class="nav__logo-icon">📋</span>
+      BackToYou
+    </a>
+    <ul class="nav__links">
+      <li><a href="browse.html" class="active">Browse Items</a></li>
+      <li><a href="report-lost.html">Lost Something?</a></li>
+      <li><a href="report-found.html">Found Something?</a></li>
+    </ul>
+    <div class="nav__auth">
+      <a href="login.html" class="btn btn--ghost">Log in</a>
+      <a href="register.html" class="btn btn--primary">Sign up</a>
+    </div>
+    <button class="nav__hamburger" aria-label="Open menu">&#9776;</button>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="page-header__inner">
+      <p class="page-header__breadcrumb"><a href="../index.html">Home</a> › Browse</p>
+      <h1>Browse all items</h1>
+      <p>Search through lost and found postings from your school community.</p>
+    </div>
+  </div>
+
+  <!-- SEARCH BAR -->
+  <div class="search-bar">
+    <div class="search-bar__inner">
+      <div class="search-bar__input-wrap">
+        <span class="search-bar__icon">🔍</span>
+        <input type="search" class="search-bar__input" placeholder="Search by item, location, description…" />
+      </div>
+      <select class="search-bar__select">
+        <option value="">All categories</option>
+        <option>Electronics</option>
+        <option>Bags &amp; Backpacks</option>
+        <option>Clothing</option>
+        <option>Keys &amp; ID</option>
+        <option>Books &amp; Stationery</option>
+        <option>Sports gear</option>
+        <option>Other</option>
+      </select>
+      <select class="search-bar__select">
+        <option value="">Any date</option>
+        <option>Today</option>
+        <option>This week</option>
+        <option>This month</option>
+      </select>
+      <button class="btn btn--primary">Search</button>
+    </div>
+  </div>
+
+  <!-- BROWSE LAYOUT -->
+  <div class="browse-layout">
+
+    <!-- SIDEBAR FILTERS -->
+    <aside class="filters">
+      <p class="filters__title">Filter</p>
+
+      <div class="filter-group">
+        <span class="filter-group__label">Status</span>
+        <div class="filter-chip-group">
+          <button class="filter-chip active">
+            <span class="filter-chip__dot filter-chip__dot--all"></span> All items
+          </button>
+          <button class="filter-chip">
+            <span class="filter-chip__dot filter-chip__dot--lost"></span> Lost only
+          </button>
+          <button class="filter-chip">
+            <span class="filter-chip__dot filter-chip__dot--found"></span> Found only
+          </button>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <span class="filter-group__label">Location</span>
+        <div class="filter-chip-group">
+          <button class="filter-chip active">Anywhere</button>
+          <button class="filter-chip">Cafeteria</button>
+          <button class="filter-chip">Library</button>
+          <button class="filter-chip">Gym / Locker rooms</button>
+          <button class="filter-chip">Classrooms</button>
+          <button class="filter-chip">Hallways</button>
+          <button class="filter-chip">Parking lot</button>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <span class="filter-group__label">Category</span>
+        <div class="filter-chip-group">
+          <button class="filter-chip active">All</button>
+          <button class="filter-chip">📱 Electronics</button>
+          <button class="filter-chip">🎒 Bags</button>
+          <button class="filter-chip">👕 Clothing</button>
+          <button class="filter-chip">🔑 Keys &amp; ID</button>
+          <button class="filter-chip">📚 Books</button>
+          <button class="filter-chip">⚽ Sports</button>
+        </div>
+      </div>
+
+      <div style="margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border);">
+        <a href="report-lost.html" class="btn btn--lost btn--block" style="margin-bottom:8px;">+ Report lost item</a>
+        <a href="report-found.html" class="btn btn--found btn--block">+ Report found item</a>
+      </div>
+    </aside>
+
+    <!-- MAIN GRID -->
+    <main class="browse-main">
+      <div class="browse-main__toolbar">
+        <p class="browse-count"><strong>24 items</strong> found</p>
+        <select class="search-bar__select" style="min-width:unset;">
+          <option>Newest first</option>
+          <option>Oldest first</option>
+        </select>
+      </div>
+
+      <div class="items-grid">
+
+        <article class="item-card item-card--lost">
+          <div class="item-card__header">
+            <span class="item-card__badge item-card__badge--lost">Lost</span>
+            <span class="item-card__date">Jun 19</span>
+          </div>
+          <div class="item-card__emoji">🎒</div>
+          <div class="item-card__body">
+            <h3 class="item-card__title">Blue JanSport backpack</h3>
+            <p class="item-card__location">📍 Room 204 / 2nd Floor</p>
+            <p class="item-card__desc">Navy blue JanSport with an Iron Man keychain. Missing since Tuesday.</p>
+            <div class="item-card__footer">
+              <a href="#" class="btn btn--sm btn--ghost btn--block">View &amp; Contact</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="item-card item-card--found">
+          <div class="item-card__header">
+            <span class="item-card__badge item-card__badge--found">Found</span>
+            <span class="item-card__date">Jun 18</span>
+          </div>
+          <div class="item-card__emoji">📱</div>
+          <div class="item-card__body">
+            <h3 class="item-card__title">iPhone — black &amp; white case</h3>
+            <p class="item-card__location">📍 Cafeteria exit</p>
+            <p class="item-card__desc">Found an iPhone with a geometric case. At the main office.</p>
+            <div class="item-card__footer">
+              <a href="#" class="btn btn--sm btn--ghost btn--block">View &amp; Contact</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="item-card item-card--found">
+          <div class="item-card__header">
+            <span class="item-card__badge item-card__badge--found">Found</span>
+            <span class="item-card__date">Jun 18</span>
+          </div>
+          <div class="item-card__emoji">🔑</div>
+          <div class="item-card__body">
+            <h3 class="item-card__title">Keys — 3 keys + blue lanyard</h3>
+            <p class="item-card__location">📍 Gym locker room</p>
+            <p class="item-card__desc">Three keys on a ring with a blue lanyard and a bottle opener charm.</p>
+            <div class="item-card__footer">
+              <a href="#" class="btn btn--sm btn--ghost btn--block">View &amp; Contact</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="item-card item-card--lost">
+          <div class="item-card__header">
+            <span class="item-card__badge item-card__badge--lost">Lost</span>
+            <span class="item-card__date">Jun 17</span>
+          </div>
+          <div class="item-card__emoji">🎧</div>
+          <div class="item-card__body">
+            <h3 class="item-card__title">AirPods — white, no case</h3>
+            <p class="item-card__location">📍 Library or 3rd floor stairs</p>
+            <p class="item-card__desc">2nd gen AirPods. One has a small scratch. No charging case.</p>
+            <div class="item-card__footer">
+              <a href="#" class="btn btn--sm btn--ghost btn--block">View &amp; Contact</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="item-card item-card--found">
+          <div class="item-card__header">
+            <span class="item-card__badge item-card__badge--found">Found</span>
+            <span class="item-card__date">Jun 17</span>
+          </div>
+          <div class="item-card__emoji">🧢</div>
+          <div class="item-card__body">
+            <h3 class="item-card__title">Grey Nike cap</h3>
+            <p class="item-card__location">📍 Hallway near Room 110</p>
+            <p class="item-card__desc">Grey Nike snapback cap. Initials "J.R." written inside the brim.</p>
+            <div class="item-card__footer">
+              <a href="#" class="btn btn--sm btn--ghost btn--block">View &amp; Contact</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="item-card item-card--lost">
+          <div class="item-card__header">
+            <span class="item-card__badge item-card__badge--lost">Lost</span>
+            <span class="item-card__date">Jun 16</span>
+          </div>
+          <div class="item-card__emoji">📓</div>
+          <div class="item-card__body">
+            <h3 class="item-card__title">Green spiral notebook — Science</h3>
+            <p class="item-card__location">📍 Science block / Room 301</p>
+            <p class="item-card__desc">Green A4 spiral notebook with "Bio Notes" on the cover. Has name inside front cover.</p>
+            <div class="item-card__footer">
+              <a href="#" class="btn btn--sm btn--ghost btn--block">View &amp; Contact</a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- PAGINATION -->
+      <div class="pagination">
+        <button class="page-btn active">1</button>
+        <button class="page-btn">2</button>
+        <button class="page-btn">3</button>
+        <button class="page-btn">4</button>
+        <button class="page-btn">›</button>
+      </div>
+    </main>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer" style="margin-top: 48px;">
+    <div class="footer__inner">
+      <div class="footer__logo">
+        <span class="footer__logo-icon">📋</span>
+        BackToYou
+      </div>
+      <nav class="footer__links">
+        <a href="browse.html">Browse</a>
+        <a href="report-lost.html">Report Lost</a>
+        <a href="report-found.html">Report Found</a>
+        <a href="login.html">Log In</a>
+      </nav>
+      <p class="footer__copy">&copy; 2026 BackToYou. Built for schools.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
