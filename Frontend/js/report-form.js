@@ -187,3 +187,50 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         return;
       }
+
+      
+
+      const payload = {
+        type: isFoundForm ? 'found' : 'lost',
+        category: selectedCategory,
+        itemName: document.getElementById('item-name').value.trim(),
+        description: document.getElementById('item-desc').value.trim(),
+        location: document.getElementById('location').value,
+        locationDetail: document.getElementById('location-detail')?.value.trim() || '',
+        date: document.getElementById(isFoundForm ? 'date-found' : 'date-lost').value,
+        time: document.getElementById(isFoundForm ? 'time-found' : 'time-lost')?.value || '',
+        itemCurrentLocation: isFoundForm ? document.getElementById('item-location').value : null,
+        reporterName: document.getElementById('your-name').value.trim(),
+        reporterEmail: document.getElementById('your-email').value.trim(),
+        reporterGrade: document.getElementById('your-grade')?.value || '',
+        notifyMe: formCard.querySelector('.form-group input[type="checkbox"]')?.checked ?? true,
+        photo: selectedFile,
+      };
+
+      submitBtn.disabled = true;
+      const originalLabel = submitBtn.textContent;
+      submitBtn.textContent = 'Posting…';
+
+      try {
+        console.log('BackToYou submission payload:', payload);
+        await new Promise((resolve) => setTimeout(resolve, 500));
+
+        formCard.innerHTML = `
+          <div style="text-align:center; padding: 32px 8px;">
+            <div style="font-size:2.5rem; margin-bottom:8px;">✅</div>
+            <h3 style="margin-bottom:6px;">Posted!</h3>
+            <p style="color:var(--text-muted); font-size:0.9rem;">
+              We'll email you the moment someone reports a matching
+              ${isFoundForm ? 'lost' : 'found'} item.
+            </p>
+          </div>
+        `;
+      } catch (err) {
+        console.error(err);
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalLabel;
+        alert('Something went wrong posting your item. Please try again.');
+      }
+    });
+  }
+});
