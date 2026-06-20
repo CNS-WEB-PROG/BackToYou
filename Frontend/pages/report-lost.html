@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Report a Lost Item — BackToYou</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="../index.html" class="nav__logo">
+      <span class="nav__logo-icon">📋</span>
+      BackToYou
+    </a>
+    <ul class="nav__links">
+      <li><a href="browse.html">Browse Items</a></li>
+      <li><a href="report-lost.html" class="active">Lost Something?</a></li>
+      <li><a href="report-found.html">Found Something?</a></li>
+    </ul>
+    <div class="nav__auth">
+      <a href="login.html" class="btn btn--ghost">Log in</a>
+      <a href="register.html" class="btn btn--primary">Sign up</a>
+    </div>
+    <button class="nav__hamburger" aria-label="Open menu">&#9776;</button>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header" style="border-left: 4px solid var(--lost-accent);">
+    <div class="page-header__inner">
+      <p class="page-header__breadcrumb"><a href="../index.html">Home</a> › <a href="browse.html">Browse</a> › Report Lost</p>
+      <h1>Report a lost item</h1>
+      <p>The more detail you add, the better your chances of a match. We'll notify you if someone posts a found item that fits.</p>
+    </div>
+  </div>
+
+  <!-- FORM -->
+  <div class="form-page">
+    <div class="form-card form-card--lost">
+
+      <p class="form-section-label">What did you lose?</p>
+
+      <!-- Category picker -->
+      <div class="form-group">
+        <label>Category <span class="required">*</span></label>
+        <div class="category-grid">
+          <button type="button" class="category-btn selected">
+            <span class="category-btn__emoji">📱</span> Electronics
+          </button>
+          <button type="button" class="category-btn">
+            <span class="category-btn__emoji">🎒</span> Bags
+          </button>
+          <button type="button" class="category-btn">
+            <span class="category-btn__emoji">👕</span> Clothing
+          </button>
+          <button type="button" class="category-btn">
+            <span class="category-btn__emoji">🔑</span> Keys &amp; ID
+          </button>
+          <button type="button" class="category-btn">
+            <span class="category-btn__emoji">📚</span> Books
+          </button>
+          <button type="button" class="category-btn">
+            <span class="category-btn__emoji">⚽</span> Sports
+          </button>
+          <button type="button" class="category-btn">
+            <span class="category-btn__emoji">🎧</span> Accessories
+          </button>
+          <button type="button" class="category-btn">
+            <span class="category-btn__emoji">💳</span> Wallet
+          </button>
+          <button type="button" class="category-btn">
+            <span class="category-btn__emoji">📦</span> Other
+          </button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="item-name">Item name <span class="required">*</span></label>
+        <input type="text" id="item-name" class="form-control" placeholder="e.g. Blue JanSport backpack" />
+      </div>
+
+      <div class="form-group">
+        <label for="item-desc">Description <span class="required">*</span></label>
+        <textarea id="item-desc" class="form-control" rows="4" placeholder="Colour, brand, any markings, stickers, initials — the more detail the better…"></textarea>
+        <small>Be specific. Include anything that makes it identifiable to you but not obvious to everyone.</small>
+      </div>
+
+      <p class="form-section-label">Where &amp; when</p>
+
+      <div class="form-group">
+        <label for="location">Last known location <span class="required">*</span></label>
+        <select id="location" class="form-control">
+          <option value="" disabled selected>Select a location…</option>
+          <optgroup label="Academic">
+            <option>Classrooms (specify below)</option>
+            <option>Library</option>
+            <option>Science block</option>
+            <option>Computer labs</option>
+          </optgroup>
+          <optgroup label="Common areas">
+            <option>Cafeteria</option>
+            <option>Hallways</option>
+            <option>Main office area</option>
+            <option>Auditorium</option>
+          </optgroup>
+          <optgroup label="Sports">
+            <option>Gym</option>
+            <option>Locker rooms</option>
+            <option>Sports field</option>
+          </optgroup>
+          <optgroup label="Other">
+            <option>Parking lot</option>
+            <option>Bus stop / entrance</option>
+            <option>Other / Not sure</option>
+          </optgroup>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="location-detail">Specific spot (optional)</label>
+        <input type="text" id="location-detail" class="form-control" placeholder="e.g. near the window seats, locker #24, Room 204…" />
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="date-lost">Date lost <span class="required">*</span></label>
+          <input type="date" id="date-lost" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label for="time-lost">Approx. time (optional)</label>
+          <input type="time" id="time-lost" class="form-control" />
+        </div>
+      </div>
+
+      <p class="form-section-label">Photo (optional but recommended)</p>
+
+      <div class="form-group">
+        <div class="upload-zone" role="button" tabindex="0" aria-label="Upload a photo">
+          <div class="upload-zone__icon">📷</div>
+          <p class="upload-zone__text">
+            <strong>Tap to add a photo</strong><br />
+            A photo helps a lot. JPG, PNG or HEIC, up to 10 MB.
+          </p>
+        </div>
+        <small>Don't have one? You can add one later from your dashboard.</small>
+      </div>
+
+      <p class="form-section-label">Your contact details</p>
+
+      <div class="form-group">
+        <label for="your-name">Your name <span class="required">*</span></label>
+        <input type="text" id="your-name" class="form-control" placeholder="First and last name" />
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="your-email">School email <span class="required">*</span></label>
+          <input type="email" id="your-email" class="form-control" placeholder="you@school.edu" />
+        </div>
+        <div class="form-group">
+          <label for="your-grade">Grade / Year</label>
+          <select id="your-grade" class="form-control">
+            <option value="" disabled selected>Select…</option>
+            <option>Year 7</option>
+            <option>Year 8</option>
+            <option>Year 9</option>
+            <option>Year 10</option>
+            <option>Year 11</option>
+            <option>Year 12</option>
+            <option>Staff</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>
+          <input type="checkbox" style="margin-right: 6px;" checked />
+          Notify me by email when a matching found item is posted
+        </label>
+      </div>
+
+      <div class="form-submit-area">
+        <button type="button" class="btn btn--lost btn--lg btn--block">Post lost item</button>
+        <p class="form-note">Your post will be visible to the school community. Your email will not be shown publicly — people contact you through the site.</p>
+      </div>
+
+    </div>
+
+    <p style="text-align:center; margin-top:20px; font-size:0.82rem; color:var(--text-muted);">
+      Found something instead? <a href="report-found.html" style="color:var(--found-accent); font-weight:600;">Report a found item →</a>
+    </p>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__logo">
+        <span class="footer__logo-icon">📋</span>
+        BackToYou
+      </div>
+      <nav class="footer__links">
+        <a href="browse.html">Browse</a>
+        <a href="report-lost.html">Report Lost</a>
+        <a href="report-found.html">Report Found</a>
+        <a href="login.html">Log In</a>
+      </nav>
+      <p class="footer__copy">&copy; 2026 BackToYou. Built for schools.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
