@@ -14,11 +14,11 @@
         $title = $data['title'] ?? '';
         $description = $data['description'] ?? '';
         $location = $data['location'] ?? '';
-        $date_occurred = $data['date_occurred'] ?? date('y-m-d');
+        $date_occurred = $data['date_occurred'] ?? date('Y-m-d');
 
         $stmt = $pdo->prepare("
             INSERT INTO items (user_id, type, category, title, description, location, date_occurred)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
         ");
 
         $stmt->execute([$_SESSION['user_id'], $type, $category, $title, $description, $location, $date_occurred]);
