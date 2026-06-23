@@ -513,7 +513,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   border-radius: var(--radius-md);
   padding: 20px;
   box-shadow: var(--shadow-card);
-  position: sticky;
+  /*position: sticky; */
   top: 80px;
 }
 .filters__title {
