@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Log In — BackToYou</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="../index.html" class="nav__logo">
+      <span class="nav__logo-icon">📋</span>
+      BackToYou
+    </a>
+    <ul class="nav__links">
+      <li><a href="browse.html">Browse Items</a></li>
+      <li><a href="report-lost.html">Lost Something?</a></li>
+      <li><a href="report-found.html">Found Something?</a></li>
+    </ul>
+    <div class="nav__auth">
+      <a href="login.html" class="btn btn--ghost">Log in</a>
+      <a href="register.html" class="btn btn--primary">Sign up</a>
+    </div>
+    <button class="nav__hamburger" aria-label="Open menu">&#9776;</button>
+  </nav>
+
+  <div class="auth-page">
+    <div class="auth-card">
+
+      <div class="auth-logo">
+        <div class="auth-logo__icon">📋</div>
+        <div class="auth-logo__name">BackToYou</div>
+      </div>
+
+      <h1>Welcome back</h1>
+      <p class="auth-card__sub">Log in to manage your lost &amp; found posts.</p>
+
+      <div class="form-group">
+        <label for="email">School email</label>
+        <div class="input-group">
+          <span class="input-group__icon">✉️</span>
+          <input type="email" id="email" class="form-control" placeholder="you@school.edu" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password" style="display:flex; justify-content:space-between;">
+          Password
+          <a href="#" style="font-weight:400; color:var(--navy); font-size:0.78rem;">Forgot password?</a>
+        </label>
+        <div class="input-group">
+          <span class="input-group__icon">🔒</span>
+          <input type="password" id="password" class="form-control" placeholder="Enter your password" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label style="display:flex; align-items:center; gap:8px; font-weight:400; cursor:pointer;">
+          <input type="checkbox" />
+          Keep me logged in
+        </label>
+      </div>
+
+      <button class="btn btn--primary btn--lg btn--block" style="margin-top:8px;">Log in</button>
+
+      <div class="auth-divider"><span>or</span></div>
+
+      <button class="btn btn--ghost btn--lg btn--block">
+        🏫 &nbsp; Log in with school account
+      </button>
+
+      <p class="auth-switch">
+        Don't have an account? <a href="register.html">Sign up free</a>
+      </p>
+
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__logo">
+        <span class="footer__logo-icon">📋</span>
+        BackToYou
+      </div>
+      <nav class="footer__links">
+        <a href="browse.html">Browse</a>
+        <a href="report-lost.html">Report Lost</a>
+        <a href="report-found.html">Report Found</a>
+      </nav>
+      <p class="footer__copy">&copy; 2026 BackToYou. Built for schools.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
