@@ -7,6 +7,20 @@
         }
 
         $file = $_FILES['photo'];
+
+        $allowedTypes = ['image/jpeg', 'image/png', 'image/heic'];
+        $finfo = new finfo(FILEINFO_MIME_TYPE);
+        $mime = $finfo->file($file['tmp_name']);
+
+        if (!in_array($mime, $allowedTypes)) {
+            echo json_encode(['success' => false, 'error' => 'Only JPG, PNG, and HEIC files are allowed.']);
+            exit;
+        }
+        if ($file['size'] > 10 * 1024 * 1024) {
+            echo json_encode(['success' => false, 'error' => 'File exceeds 10 MB limit.']);
+            exit;
+        }
+
         $uploadDir = '../uploads/';
 
         if (!is_dir($uploadDir)) {

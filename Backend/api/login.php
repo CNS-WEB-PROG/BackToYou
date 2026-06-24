@@ -8,7 +8,7 @@
 
         $stmt = $pdo->prepare("SELECT id, name, password FROM users WHERE email = ?");
         $stmt->execute([$email]);
-        $user = $stmt->fetch(PDO::FETCHASSOC);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if($user && password_verify($password, $user['password'])) {
 

@@ -1,0 +1,480 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Dashboard — BackToYou</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <style>
+
+    /* --- DASHBOARD LAYOUT --- */
+    .dashboard-wrap {
+      max-width: 1100px;
+      margin: 32px auto;
+      padding: 0 24px 60px;
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    /* --- SIDEBAR --- */
+    .dash-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      position: sticky;
+      top: 80px;
+    }
+    .dash-user {
+      background: var(--surface);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      box-shadow: var(--shadow-card);
+      text-align: center;
+      margin-bottom: 4px;
+    }
+    .dash-user__avatar {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin: 0 auto 10px;
+      font-family: var(--font-display);
+      font-weight: 800;
+      color: var(--navy);
+    }
+    .dash-user__name {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--text-primary);
+    }
+    .dash-user__grade {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    .dash-nav-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      background: none;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      text-align: left;
+      transition: background 0.15s, color 0.15s;
+      text-decoration: none;
+    }
+    .dash-nav-link:hover { background: var(--surface); color: var(--navy); }
+    .dash-nav-link.active {
+      background: var(--navy);
+      color: #fff;
+      font-weight: 600;
+    }
+    .dash-nav-link__icon { font-size: 1rem; width: 20px; text-align: center; }
+
+    .dash-nav-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 6px 0;
+    }
+
+    /* --- MAIN AREA --- */
+    .dash-main { display: flex; flex-direction: column; gap: 24px; }
+
+    /* --- STAT CARDS --- */
+    .dash-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .dash-stat {
+      background: var(--surface);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      box-shadow: var(--shadow-card);
+    }
+    .dash-stat__label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+    .dash-stat__num {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--navy);
+      line-height: 1;
+    }
+    .dash-stat__sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+    .dash-stat--match .dash-stat__num { color: var(--found-accent); }
+    .dash-stat--lost  .dash-stat__num { color: var(--lost-accent); }
+
+    /* --- SECTION CARD --- */
+    .dash-card {
+      background: var(--surface);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+    }
+    .dash-card__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .dash-card__title {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    /* --- ITEM ROWS --- */
+    .item-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.12s;
+    }
+    .item-row:last-child { border-bottom: none; }
+    .item-row:hover { background: var(--bg); }
+    .item-row__emoji {
+      font-size: 1.6rem;
+      width: 40px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+    .item-row__info { flex: 1; min-width: 0; }
+    .item-row__title {
+      font-weight: 600;
+      font-size: 0.875rem;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .item-row__meta {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    .item-row__actions {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    /* --- MATCH ALERT --- */
+    .match-alert {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      background: var(--found-bg);
+    }
+    .match-alert:last-child { border-bottom: none; }
+    .match-alert__icon { font-size: 1.4rem; flex-shrink: 0; }
+    .match-alert__body { flex: 1; }
+    .match-alert__title {
+      font-weight: 600;
+      font-size: 0.875rem;
+      color: var(--found-accent);
+    }
+    .match-alert__desc {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      margin-top: 3px;
+      line-height: 1.5;
+    }
+    .match-alert__time {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 5px;
+    }
+
+    /* --- EMPTY STATE --- */
+    .dash-empty {
+      padding: 40px 20px;
+      text-align: center;
+      color: var(--text-muted);
+    }
+    .dash-empty__icon { font-size: 2rem; margin-bottom: 8px; }
+    .dash-empty p { font-size: 0.85rem; margin-bottom: 14px; }
+
+    /* --- QUICK ACTIONS --- */
+    .quick-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      padding: 16px 20px;
+    }
+    .quick-action {
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.15s;
+      text-decoration: none;
+      display: block;
+    }
+    .quick-action:hover { border-color: var(--navy); background: var(--bg); }
+    .quick-action__icon { font-size: 1.5rem; margin-bottom: 6px; }
+    .quick-action__label {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    @media (max-width: 768px) {
+      .dashboard-wrap {
+        grid-template-columns: 1fr;
+      }
+      .dash-sidebar { position: static; flex-direction: row; flex-wrap: wrap; }
+      .dash-user { width: 100%; }
+      .dash-stats { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 480px) {
+      .dash-stats { grid-template-columns: 1fr; }
+      .quick-actions { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="../index.html" class="nav__logo">
+      <span class="nav__logo-icon">📋</span>
+      BackToYou
+    </a>
+    <ul class="nav__links">
+      <li><a href="browse.html">Browse Items</a></li>
+      <li><a href="report-lost.html">Lost Something?</a></li>
+      <li><a href="report-found.html">Found Something?</a></li>
+    </ul>
+    <div class="nav__auth">
+      <span style="font-size:0.85rem; color:var(--text-secondary); font-weight:500;">Hi, Jamie 👋</span>
+      <a href="login.html" class="btn btn--ghost">Log out</a>
+    </div>
+    <button class="nav__hamburger" aria-label="Open menu">&#9776;</button>
+  </nav>
+
+  <div class="dashboard-wrap">
+
+    <!-- SIDEBAR -->
+    <aside class="dash-sidebar">
+
+      <div class="dash-user">
+        <div class="dash-user__avatar">JR</div>
+        <div class="dash-user__name">Jamie Reyes</div>
+        <div class="dash-user__grade">Year 10 · Student</div>
+      </div>
+
+      <a href="#overview" class="dash-nav-link active">
+        <span class="dash-nav-link__icon">🏠</span> Overview
+      </a>
+      <a href="#my-lost" class="dash-nav-link">
+        <span class="dash-nav-link__icon">🔍</span> My Lost Items
+      </a>
+      <a href="#my-found" class="dash-nav-link">
+        <span class="dash-nav-link__icon">✅</span> My Found Items
+      </a>
+      <a href="#matches" class="dash-nav-link">
+        <span class="dash-nav-link__icon">🔔</span> Matches &amp; Alerts
+        <span style="margin-left:auto; background:var(--lost-accent); color:#fff; font-size:0.65rem; font-weight:700; padding:2px 6px; border-radius:10px;">2</span>
+      </a>
+
+      <div class="dash-nav-divider"></div>
+
+      <a href="#" class="dash-nav-link">
+        <span class="dash-nav-link__icon">⚙️</span> Settings
+      </a>
+      <a href="login.html" class="dash-nav-link" style="color:var(--lost-accent);">
+        <span class="dash-nav-link__icon">🚪</span> Log out
+      </a>
+
+    </aside>
+
+    <!-- MAIN -->
+    <main class="dash-main">
+
+      <!-- STATS -->
+      <div class="dash-stats">
+        <div class="dash-stat dash-stat--lost">
+          <div class="dash-stat__label">Items I lost</div>
+          <div class="dash-stat__num">2</div>
+          <div class="dash-stat__sub">1 still missing</div>
+        </div>
+        <div class="dash-stat">
+          <div class="dash-stat__label">Items I found</div>
+          <div class="dash-stat__num">1</div>
+          <div class="dash-stat__sub">Pending claim</div>
+        </div>
+        <div class="dash-stat dash-stat--match">
+          <div class="dash-stat__label">Potential matches</div>
+          <div class="dash-stat__num">2</div>
+          <div class="dash-stat__sub">Needs your review</div>
+        </div>
+      </div>
+
+      <!-- MATCH ALERTS -->
+      <div class="dash-card" id="matches">
+        <div class="dash-card__header">
+          <span class="dash-card__title">🔔 Match alerts</span>
+          <span style="font-size:0.75rem; color:var(--text-muted);">2 new</span>
+        </div>
+
+        <div class="match-alert">
+          <div class="match-alert__icon">🎒</div>
+          <div class="match-alert__body">
+            <div class="match-alert__title">Possible match for your lost backpack</div>
+            <div class="match-alert__desc">Someone found a navy blue JanSport near the gym. Matches your description — check it out.</div>
+            <div class="match-alert__time">2 hours ago</div>
+          </div>
+          <div>
+            <a href="browse.html" class="btn btn--sm btn--found">Review</a>
+          </div>
+        </div>
+
+        <div class="match-alert">
+          <div class="match-alert__icon">🎧</div>
+          <div class="match-alert__body">
+            <div class="match-alert__title">Possible match for your lost AirPods</div>
+            <div class="match-alert__desc">A found posting for white AirPods from the library area was just added. Could be yours.</div>
+            <div class="match-alert__time">Yesterday</div>
+          </div>
+          <div>
+            <a href="browse.html" class="btn btn--sm btn--found">Review</a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- MY LOST ITEMS -->
+      <div class="dash-card" id="my-lost">
+        <div class="dash-card__header">
+          <span class="dash-card__title">My lost items</span>
+          <a href="report-lost.html" class="btn btn--sm btn--lost">+ Report new</a>
+        </div>
+
+        <div class="item-row">
+          <div class="item-row__emoji">🎒</div>
+          <div class="item-row__info">
+            <div class="item-row__title">Blue JanSport backpack</div>
+            <div class="item-row__meta">📍 Room 204 · Posted Jun 19 · <span style="color:var(--found-accent); font-weight:600;">2 matches</span></div>
+          </div>
+          <div class="item-row__actions">
+            <span class="item-card__badge item-card__badge--lost">Active</span>
+            <button class="btn btn--sm btn--ghost">Edit</button>
+          </div>
+        </div>
+
+        <div class="item-row">
+          <div class="item-row__emoji">🎧</div>
+          <div class="item-row__info">
+            <div class="item-row__title">AirPods — white, no case</div>
+            <div class="item-row__meta">📍 Library · Posted Jun 17 · <span style="color:var(--found-accent); font-weight:600;">1 match</span></div>
+          </div>
+          <div class="item-row__actions">
+            <span class="item-card__badge item-card__badge--lost">Active</span>
+            <button class="btn btn--sm btn--ghost">Edit</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- MY FOUND ITEMS -->
+      <div class="dash-card" id="my-found">
+        <div class="dash-card__header">
+          <span class="dash-card__title">Items I've found</span>
+          <a href="report-found.html" class="btn btn--sm btn--found">+ Report found</a>
+        </div>
+
+        <div class="item-row">
+          <div class="item-row__emoji">🧢</div>
+          <div class="item-row__info">
+            <div class="item-row__title">Grey Nike cap</div>
+            <div class="item-row__meta">📍 Hallway Room 110 · Posted Jun 17 · Waiting for owner</div>
+          </div>
+          <div class="item-row__actions">
+            <span class="item-card__badge item-card__badge--found">Found</span>
+            <button class="btn btn--sm btn--ghost">Edit</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- QUICK ACTIONS -->
+      <div class="dash-card">
+        <div class="dash-card__header">
+          <span class="dash-card__title">Quick actions</span>
+        </div>
+        <div class="quick-actions">
+          <a href="report-lost.html" class="quick-action">
+            <div class="quick-action__icon">🔍</div>
+            <div class="quick-action__label">Report a lost item</div>
+          </a>
+          <a href="report-found.html" class="quick-action">
+            <div class="quick-action__icon">✅</div>
+            <div class="quick-action__label">Report a found item</div>
+          </a>
+          <a href="browse.html" class="quick-action">
+            <div class="quick-action__icon">📋</div>
+            <div class="quick-action__label">Browse all items</div>
+          </a>
+          <a href="#" class="quick-action">
+            <div class="quick-action__icon">⚙️</div>
+            <div class="quick-action__label">Edit my profile</div>
+          </a>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__logo">
+        <span class="footer__logo-icon">📋</span>
+        BackToYou
+      </div>
+      <nav class="footer__links">
+        <a href="browse.html">Browse</a>
+        <a href="report-lost.html">Report Lost</a>
+        <a href="report-found.html">Report Found</a>
+      </nav>
+      <p class="footer__copy">&copy; 2026 BackToYou. Built for schools.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
