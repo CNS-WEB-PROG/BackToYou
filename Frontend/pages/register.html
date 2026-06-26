@@ -170,7 +170,13 @@
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ name, email, password, grade }),
+        body: JSON.stringify({
+          name,
+          student_id: document.getElementById('student-id').value.trim(),
+          email,
+          password,
+          phone: document.getElementById('phone').value.trim(),
+        }),
       });
       const data = await res.json();
 
