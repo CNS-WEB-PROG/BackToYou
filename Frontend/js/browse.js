@@ -143,5 +143,51 @@ document.addEventListener('DOMContentLoaded', () => {
   searchBtn?.addEventListener('click', applyFilters);
   sortSelect?.addEventListener('change', applySort);
 
-  applyFilters();
+  // Load real items from API
+  async function loadFromAPI() {
+    try {
+      const res  = await fetch('/backtoyou/Backend/api/get_items.php', { credentials: 'include' });
+      const data = await res.json();
+      if (!data.success || !data.items.length) return;
+
+      const EMOJI = {
+        'electronics':'📱','bags':'🎒','clothing':'👕','keys & id':'🔑',
+        'books':'📚','sports':'⚽','accessories':'🎧','wallet':'💳','other':'📦',
+      };
+
+      grid.innerHTML = data.items.map(item => {
+        const isLost = item.type === 'lost';
+        const date   = new Date(item.date_occurred + 'T00:00:00')
+                         .toLocaleDateString('en-GB', { day:'numeric', month:'short' });
+        const emoji  = EMOJI[item.category.toLowerCase()] || '📦';
+        const loc    = [item.location, item.location_detail].filter(Boolean).join(' — ');
+        return `
+          <article class="item-card ${isLost ? 'item-card--lost' : 'item-card--found'}">
+            <div class="item-card__header">
+              <span class="item-card__badge ${isLost ? 'item-card__badge--lost' : 'item-card__badge--found'}">
+                ${isLost ? 'Lost' : 'Found'}
+              </span>
+              <span class="item-card__date">${date}</span>
+            </div>
+            <div class="item-card__emoji">${emoji}</div>
+            <div class="item-card__body">
+              <h3 class="item-card__title">${item.title}</h3>
+              <p class="item-card__location">📍 ${loc}</p>
+              <p class="item-card__desc">${item.description}</p>
+              <div class="item-card__footer">
+                <a href="#" class="btn btn--sm btn--ghost btn--block">View &amp; Contact</a>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join('');
+
+      if (countLabel) countLabel.textContent = `${data.items.length} item${data.items.length === 1 ? '' : 's'}`;
+      applyFilters();
+    } catch (err) {
+      console.error('Could not load items from API:', err);
+    }
+  }
+
+  loadFromAPI(); 
 });
