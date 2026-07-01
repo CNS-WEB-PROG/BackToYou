@@ -2,6 +2,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const grid = document.querySelector('.items-grid');
   if (!grid) return;
 
+  // Configuration Constants
+  const ITEMS_PER_PAGE = 6; // Set how many items you want displayed on a single page
+  let currentPage = 1;
+
   const searchInput = document.querySelector('.search-bar__input');
   const searchSelects = document.querySelectorAll('.search-bar .search-bar__select');
   const searchCategorySelect = searchSelects[0] || null;
@@ -10,15 +14,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const sortSelect = document.querySelector('.browse-main__toolbar .search-bar__select');
   const countLabel = document.querySelector('.browse-count strong');
   const filterGroups = document.querySelectorAll('.filter-group');
-  const paginationBtns = document.querySelectorAll('.pagination .page-btn');
+  const paginationContainer = document.querySelector('.pagination');
 
+  // Multi-filter click setups
   filterGroups.forEach((group) => {
     const chips = group.querySelectorAll('.filter-chip');
     chips.forEach((chip) => {
       chip.addEventListener('click', () => {
         chips.forEach((c) => c.classList.remove('active'));
         chip.classList.add('active');
-        applyFilters();
+        currentPage = 1; // Reset window matrix index back to page 1 on filter alteration
+        applyFiltersAndPagination();
       });
     });
   });
@@ -54,7 +60,10 @@ document.addEventListener('DOMContentLoaded', () => {
     return true;
   }
 
-  function applyFilters() {
+  /**
+   * Pipeline core that manages matching filter subsets and updates the pagination window frame
+   */
+  function applyFiltersAndPagination() {
     const searchText = (searchInput?.value || '').trim().toLowerCase();
     const status = getActiveChipText(0);
     const locationChip = getActiveChipText(1);
@@ -62,9 +71,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const dropdownCategory = searchCategorySelect?.value || '';
     const dropdownDate = searchDateSelect?.value || '';
 
-    let visibleCount = 0;
+    // Step 1: Filter evaluation mapping
+    const allCards = Array.from(grid.querySelectorAll('.item-card'));
+    let matchedCards = [];
 
-    grid.querySelectorAll('.item-card').forEach((card) => {
+    allCards.forEach((card) => {
       const text = card.textContent.toLowerCase();
       const isLost = card.classList.contains('item-card--lost');
       const isFound = card.classList.contains('item-card--found');
@@ -86,12 +97,82 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       if (!matchesDateFilter(card, dropdownDate)) visible = false;
 
-      card.style.display = visible ? '' : 'none';
-      if (visible) visibleCount += 1;
+      if (visible) {
+        matchedCards.push(card);
+      } else {
+        card.style.display = 'none'; // Instantly shield failures from rendering context
+      }
     });
 
+    // Step 2: Render label calculations
+    const visibleCount = matchedCards.length;
     if (countLabel) countLabel.textContent = `${visibleCount} item${visibleCount === 1 ? '' : 's'}`;
     toggleEmptyState(visibleCount === 0);
+
+    // Step 3: Layout slice assignments mapping to standard active page arrays
+    const totalPages = Math.ceil(visibleCount / ITEMS_PER_PAGE) || 1;
+    if (currentPage > totalPages) currentPage = totalPages;
+
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+
+    matchedCards.forEach((card, index) => {
+      if (index >= startIndex && index < endIndex) {
+        card.style.display = ''; // Fallback container grid rendering execution
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    // Step 4: Redraw active functional pagination DOM links
+    renderPaginationInterface(totalPages);
+  }
+
+  /**
+   * Recreates dynamic responsive pagination component anchors dynamically
+   */
+  function renderPaginationInterface(totalPages) {
+    if (!paginationContainer) return;
+    paginationContainer.innerHTML = '';
+
+    // Don't render structural footer indicators if everything maps inside 1 page frame
+    if (totalPages <= 1) return;
+
+    for (let i = 1; i <= totalPages; i++) {
+      const btn = document.createElement('button');
+      btn.className = `page-btn ${i === currentPage ? 'active' : ''}`;
+      btn.textContent = i;
+      
+      btn.addEventListener('click', () => {
+        currentPage = i;
+        applyFiltersAndPagination();
+        scrollToToolbarTop();
+      });
+      paginationContainer.appendChild(btn);
+    }
+
+    // Append standard programmatic dynamic rsaquo next chevron pointer link
+    const nextBtn = document.createElement('button');
+    nextBtn.className = 'page-btn';
+    nextBtn.innerHTML = '&rsaquo;';
+    if (currentPage === totalPages) {
+      nextBtn.style.opacity = '0.4';
+      nextBtn.style.cursor = 'not-allowed';
+    } else {
+      nextBtn.addEventListener('click', () => {
+        currentPage++;
+        applyFiltersAndPagination();
+        scrollToToolbarTop();
+      });
+    }
+    paginationContainer.appendChild(nextBtn);
+  }
+
+  function scrollToToolbarTop() {
+    const mainToolbar = document.querySelector('.browse-main__toolbar');
+    if (mainToolbar) {
+      mainToolbar.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
   }
 
   function toggleEmptyState(show) {
@@ -119,46 +200,36 @@ document.addEventListener('DOMContentLoaded', () => {
       return sortSelect.value === 'Oldest first' ? dateA - dateB : dateB - dateA;
     });
     cards.forEach((card) => grid.appendChild(card));
+    applyFiltersAndPagination(); // Run formatting metrics cleanly across re-sorted elements
   }
 
-  paginationBtns.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      if (btn.textContent.trim() === '›') {
-        const active = document.querySelector('.pagination .page-btn.active');
-        const next = active?.nextElementSibling;
-        if (next?.classList.contains('page-btn') && /^\d+$/.test(next.textContent.trim())) {
-          paginationBtns.forEach((b) => b.classList.remove('active'));
-          next.classList.add('active');
-        }
-        return;
-      }
-      paginationBtns.forEach((b) => b.classList.remove('active'));
-      btn.classList.add('active');
-    });
-  });
-
-  searchInput?.addEventListener('input', applyFilters);
-  searchCategorySelect?.addEventListener('change', applyFilters);
-  searchDateSelect?.addEventListener('change', applyFilters);
-  searchBtn?.addEventListener('click', applyFilters);
+  // Intercept element search/input events cleanly
+  searchInput?.addEventListener('input', () => { currentPage = 1; applyFiltersAndPagination(); });
+  searchCategorySelect?.addEventListener('change', () => { currentPage = 1; applyFiltersAndPagination(); });
+  searchDateSelect?.addEventListener('change', () => { currentPage = 1; applyFiltersAndPagination(); });
+  searchBtn?.addEventListener('click', () => { currentPage = 1; applyFiltersAndPagination(); });
   sortSelect?.addEventListener('change', applySort);
 
-  // Load real items from API
+  // Load backend elements from API endpoint context matrix mapping
   async function loadFromAPI() {
     try {
       const res  = await fetch('/backtoyou/Backend/api/get_items.php', { credentials: 'include' });
       const data = await res.json();
-      if (!data.success || !data.items.length) return;
+      if (!data.success || !data.items.length) {
+        toggleEmptyState(true);
+        return;
+      }
 
       const EMOJI = {
         'electronics':'📱','bags':'🎒','clothing':'👕','keys & id':'🔑',
         'books':'📚','sports':'⚽','accessories':'🎧','wallet':'💳','other':'📦',
       };
 
+      // Wipe layout frame structure clean for active injection pipeline
       grid.innerHTML = data.items.map(item => {
         const isLost = item.type === 'lost';
         const date   = new Date(item.date_occurred + 'T00:00:00')
-                         .toLocaleDateString('en-GB', { day:'numeric', month:'short' });
+                       .toLocaleDateString('en-GB', { day:'numeric', month:'short' });
         const emoji  = EMOJI[item.category.toLowerCase()] || '📦';
         const loc    = [item.location, item.location_detail].filter(Boolean).join(' — ');
         return `
@@ -182,10 +253,11 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
       }).join('');
 
-      if (countLabel) countLabel.textContent = `${data.items.length} item${data.items.length === 1 ? '' : 's'}`;
-      applyFilters();
+      // Run unified baseline calculations cleanly across newly fetched API assets
+      applySort(); 
     } catch (err) {
       console.error('Could not load items from API:', err);
+      toggleEmptyState(true);
     }
   }
 
