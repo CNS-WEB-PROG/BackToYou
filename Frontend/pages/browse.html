@@ -32,7 +32,7 @@
 
   <div class="page-header">
     <div class="page-header__inner">
-      <p class="page-header__breadcrumb"><a href="../index.html">Home</a> › Browse</p>
+      <p class="page-header__breadcrumb"><a href="../index.html">Home</a> &rsaquo; Browse</p>
       <h1>Browse all items</h1>
       <p>Search through lost and found postings from your school community.</p>
     </div>
@@ -230,7 +230,7 @@
         <button class="page-btn">2</button>
         <button class="page-btn">3</button>
         <button class="page-btn">4</button>
-        <button class="page-btn">›</button>
+        <button class="page-btn">&rsaquo;</button>
       </div>
     </main>
   </div>
@@ -251,5 +251,25 @@
     </div>
   </footer>
 <script src="../js/browse.js"></script>
+<script>
+  // Setup functional mapping to substitute dynamic category text strings with specific Font Awesome markup
+  const itemIconMap = {
+    'electronics': 'fa-laptop',
+    'bags & backpacks': 'fa-bag-shopping',
+    'bags': 'fa-bag-shopping',
+    'clothing': 'fa-shirt',
+    'keys & id': 'fa-key',
+    'books & stationery': 'fa-book',
+    'books': 'fa-book',
+    'sports gear': 'fa-basketball',
+    'sports': 'fa-basketball',
+    'other': 'fa-box'
+  };
+
+  function getFontAwesomeIcon(category) {
+    const cleanCategory = (category || '').toLowerCase().trim();
+    return itemIconMap[cleanCategory] || 'fa-box';
+  }
+</script>
 </body>
 </html>
