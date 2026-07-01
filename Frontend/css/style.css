@@ -896,3 +896,45 @@ textarea.form-control { resize: vertical; min-height: 100px; }
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }
 }
+.empty-state {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 60px 20px;
+        color: var(--text-muted);
+}
+.empty-state__icon {
+        font-size: 3rem; 
+        margin-bottom: 12px;    
+}
+.empty-state__title {
+        font-family: var(--font-display);
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--text-secondary);
+        margin-bottom: 6px;
+}
+.pagination {
+        display: flex; gap: 6px; justify-content: center;
+        margin-top: 36px; flex-wrap: wrap;
+}
+.page-btn {
+        width: 36px; height: 36px;
+        border-radius: var(--radius-sm);
+        border: 1.5px solid var(--border);
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--text-secondary);
+        background: var(--surface);
+        cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+        transition: all 0.15s;
+}
+.page-btn:hover { 
+        border-color: var(--navy); 
+        color: var(--navy); 
+}
+.page-btn.active { 
+        background: var(--navy); 
+        color: #fff; 
+        border-color: var(--navy); 
+}
