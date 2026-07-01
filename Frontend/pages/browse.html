@@ -7,13 +7,15 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/browse.css" />
 </head>
 <body>
 
   <nav class="nav">
     <a href="../index.html" class="nav__logo">
-      <span class="nav__logo-icon">📋</span>
+      <span class="nav__logo-icon"><i class="fa-solid fa-clipboard-list"></i></span>
       BackToYou
     </a>
     <ul class="nav__links">
@@ -39,7 +41,7 @@
   <div class="search-bar">
     <div class="search-bar__inner">
       <div class="search-bar__input-wrap">
-        <span class="search-bar__icon">🔍</span>
+        <span class="search-bar__icon"><i class="fa-solid fa-magnifying-glass"></i></span>
         <input type="search" class="search-bar__input" placeholder="Search by item, location, description…" />
       </div>
       <select class="search-bar__select">
@@ -99,12 +101,12 @@
         <span class="filter-group__label">Category</span>
         <div class="filter-chip-group">
           <button class="filter-chip active">All</button>
-          <button class="filter-chip">📱 Electronics</button>
-          <button class="filter-chip">🎒 Bags</button>
-          <button class="filter-chip">👕 Clothing</button>
-          <button class="filter-chip">🔑 Keys &amp; ID</button>
-          <button class="filter-chip">📚 Books</button>
-          <button class="filter-chip">⚽ Sports</button>
+          <button class="filter-chip"><i class="fa-solid fa-laptop"></i> Electronics</button>
+          <button class="filter-chip"><i class="fa-solid fa-bag-shopping"></i> Bags</button>
+          <button class="filter-chip"><i class="fa-solid fa-shirt"></i> Clothing</button>
+          <button class="filter-chip"><i class="fa-solid fa-key"></i> Keys &amp; ID</button>
+          <button class="filter-chip"><i class="fa-solid fa-book"></i> Books</button>
+          <button class="filter-chip"><i class="fa-solid fa-basketball"></i> Sports</button>
         </div>
       </div>
 
@@ -130,10 +132,10 @@
             <span class="item-card__badge item-card__badge--lost">Lost</span>
             <span class="item-card__date">Jun 19</span>
           </div>
-          <div class="item-card__emoji">🎒</div>
+          <div class="item-card__emoji"><i class="fa-solid fa-bag-shopping"></i></div>
           <div class="item-card__body">
             <h3 class="item-card__title">Blue JanSport backpack</h3>
-            <p class="item-card__location">📍 Room 204 / 2nd Floor</p>
+            <p class="item-card__location"><i class="fa-solid fa-location-dot"></i> Room 204 / 2nd Floor</p>
             <p class="item-card__desc">Navy blue JanSport with an Iron Man keychain. Missing since Tuesday.</p>
             <div class="item-card__footer">
               <a href="#" class="btn btn--sm btn--ghost btn--block">View &amp; Contact</a>
@@ -146,10 +148,10 @@
             <span class="item-card__badge item-card__badge--found">Found</span>
             <span class="item-card__date">Jun 18</span>
           </div>
-          <div class="item-card__emoji">📱</div>
+          <div class="item-card__emoji"><i class="fa-solid fa-mobile-screen-button"></i></div>
           <div class="item-card__body">
             <h3 class="item-card__title">iPhone — black &amp; white case</h3>
-            <p class="item-card__location">📍 Cafeteria exit</p>
+            <p class="item-card__location"><i class="fa-solid fa-location-dot"></i> Cafeteria exit</p>
             <p class="item-card__desc">Found an iPhone with a geometric case. At the main office.</p>
             <div class="item-card__footer">
               <a href="#" class="btn btn--sm btn--ghost btn--block">View &amp; Contact</a>
@@ -162,10 +164,10 @@
             <span class="item-card__badge item-card__badge--found">Found</span>
             <span class="item-card__date">Jun 18</span>
           </div>
-          <div class="item-card__emoji">🔑</div>
+          <div class="item-card__emoji"><i class="fa-solid fa-key"></i></div>
           <div class="item-card__body">
             <h3 class="item-card__title">Keys — 3 keys + blue lanyard</h3>
-            <p class="item-card__location">📍 Gym locker room</p>
+            <p class="item-card__location"><i class="fa-solid fa-location-dot"></i> Gym locker room</p>
             <p class="item-card__desc">Three keys on a ring with a blue lanyard and a bottle opener charm.</p>
             <div class="item-card__footer">
               <a href="#" class="btn btn--sm btn--ghost btn--block">View &amp; Contact</a>
@@ -178,10 +180,10 @@
             <span class="item-card__badge item-card__badge--lost">Lost</span>
             <span class="item-card__date">Jun 17</span>
           </div>
-          <div class="item-card__emoji">🎧</div>
+          <div class="item-card__emoji"><i class="fa-solid fa-headphones"></i></div>
           <div class="item-card__body">
             <h3 class="item-card__title">AirPods — white, no case</h3>
-            <p class="item-card__location">📍 Library or 3rd floor stairs</p>
+            <p class="item-card__location"><i class="fa-solid fa-location-dot"></i> Library or 3rd floor stairs</p>
             <p class="item-card__desc">2nd gen AirPods. One has a small scratch. No charging case.</p>
             <div class="item-card__footer">
               <a href="#" class="btn btn--sm btn--ghost btn--block">View &amp; Contact</a>
@@ -194,10 +196,10 @@
             <span class="item-card__badge item-card__badge--found">Found</span>
             <span class="item-card__date">Jun 17</span>
           </div>
-          <div class="item-card__emoji">🧢</div>
+          <div class="item-card__emoji"><i class="fa-solid fa-shirt"></i></div>
           <div class="item-card__body">
             <h3 class="item-card__title">Grey Nike cap</h3>
-            <p class="item-card__location">📍 Hallway near Room 110</p>
+            <p class="item-card__location"><i class="fa-solid fa-location-dot"></i> Hallway near Room 110</p>
             <p class="item-card__desc">Grey Nike snapback cap. Initials "J.R." written inside the brim.</p>
             <div class="item-card__footer">
               <a href="#" class="btn btn--sm btn--ghost btn--block">View &amp; Contact</a>
@@ -210,10 +212,10 @@
             <span class="item-card__badge item-card__badge--lost">Lost</span>
             <span class="item-card__date">Jun 16</span>
           </div>
-          <div class="item-card__emoji">📓</div>
+          <div class="item-card__emoji"><i class="fa-solid fa-book"></i></div>
           <div class="item-card__body">
             <h3 class="item-card__title">Green spiral notebook — Science</h3>
-            <p class="item-card__location">📍 Science block / Room 301</p>
+            <p class="item-card__location"><i class="fa-solid fa-location-dot"></i> Science block / Room 301</p>
             <p class="item-card__desc">Green A4 spiral notebook with "Bio Notes" on the cover. Has name inside front cover.</p>
             <div class="item-card__footer">
               <a href="#" class="btn btn--sm btn--ghost btn--block">View &amp; Contact</a>
@@ -236,7 +238,7 @@
   <footer class="footer" style="margin-top: 48px;">
     <div class="footer__inner">
       <div class="footer__logo">
-        <span class="footer__logo-icon">📋</span>
+        <span class="footer__logo-icon"><i class="fa-solid fa-clipboard-list"></i></span>
         BackToYou
       </div>
       <nav class="footer__links">
