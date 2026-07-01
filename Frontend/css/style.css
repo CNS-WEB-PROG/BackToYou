@@ -1,27 +1,26 @@
 /* --- TOKENS --- */
 :root {
-  --navy:         #0F2537; /* Deepened for better contrast and premium feel */
+  --navy:         #0F2537; 
   --navy-light:   #1D3E5E;
-  --gold:         #F5C433; /* Slightly more vibrant campus yellow */
+  --gold:         #F5C433; 
   --gold-dark:    #D9AA26;
-  --bg:           #F6F8FA; /* Cleaner off-white background */
   --surface:      #FFFFFF;
-  --border:       #E2E8F0; /* Soft slate border for a modern look */
+  --border:       #E2E8F0; 
 
   --lost-bg:      #FFF4E5;
-  --lost-accent:  #E06D06; /* Slightly punchier orange */
+  --lost-accent:  #E06D06;
   --found-bg:     #E6F6EC;
-  --found-accent: #1E824A; /* Richer green for visual accessibility */
+  --found-accent: #1E824A;
 
-  --text-primary:   #0F172A; /* Slate-900 look for top-tier readability */
-  --text-secondary: #475569; /* Slate-600 */
-  --text-muted:     #94A3B8; /* Slate-400 */
+  --text-primary:   #0F172A; 
+  --text-secondary: #475569; 
+  --text-muted:     #94A3B8; 
 
-  --radius-sm:  8px;  /* Modernized slightly rounder corners */
+  --radius-sm:  8px;  
   --radius-md:  12px;
   --radius-lg:  20px;
   
-  /* Smooth, layered modern styling shadow configurations */
+ 
   --shadow-card: 0 4px 6px -1px rgba(15, 23, 42, 0.03), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
   --shadow-card-hover: 0 12px 20px -4px rgba(15, 23, 42, 0.08), 0 4px 12px -2px rgba(15, 23, 42, 0.04);
   --shadow-nav:  0 1px 3px 0 rgba(15, 23, 42, 0.05);
@@ -30,7 +29,7 @@
   --font-body:    'Inter', sans-serif;
 }
 
-/* --- RESET --- */
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body {
