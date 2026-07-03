@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const nextBtn = document.createElement('button');
     nextBtn.className = 'page-btn';
-    nextBtn.innerHTML = '&rsaquo;';
+    nextBtn.innerHTML = '<i class="fas fa-chevron-right" style="color: #4a5568;"></i>';
     if (currentPage === totalPages) {
       nextBtn.style.opacity = '0.4';
       nextBtn.style.cursor = 'not-allowed';
@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
       empty = document.createElement('div');
       empty.className = 'empty-state';
       empty.innerHTML = `
-        <div class="empty-state__icon">🔍</div>
+        <div class="empty-state__icon"><i class="fas fa-search" style="color: #a0aec0;"></i></div>
         <p class="empty-state__title">No items match your filters</p>
         <p>Try clearing a filter or searching a different keyword.</p>`;
       grid.appendChild(empty);
@@ -182,23 +182,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function loadFromAPI() {
     try {
-      const res  = await fetch('/BackToYou/Backend/api/get_items.php', { credentials: 'include' });
+      const res  = await fetch('/BackToYou/Backend/get_items.php', { credentials: 'include' });
       const data = await res.json();
       if (!data.success || !data.items.length) {
         toggleEmptyState(true);
         return;
       }
 
-      const EMOJI = {
-        'electronics':'📱','bags':'🎒','clothing':'👕','keys & id':'🔑',
-        'books':'📚','sports':'⚽','accessories':'🎧','wallet':'💳','other':'📦',
+      const ICONS = {
+        'electronics': '<i class="fas fa-laptop" style="color: #3182ce;"></i>',
+        'bags':        '<i class="fas fa-backpack" style="color: #dd6b20;"></i>',
+        'clothing':    '<i class="fas fa-tshirt" style="color: #38a169;"></i>',
+        'keys & id':   '<i class="fas fa-key" style="color: #e53e3e;"></i>',
+        'books':       '<i class="fas fa-book" style="color: #805ad5;"></i>',
+        'sports':      '<i class="fas fa-football-ball" style="color: #d69e2e;"></i>',
+        'accessories': '<i class="fas fa-glasses" style="color: #319795;"></i>',
+        'wallet':      '<i class="fas fa-wallet" style="color: #b7791f;"></i>',
+        'other':       '<i class="fas fa-box" style="color: #718096;"></i>'
       };
 
       grid.innerHTML = data.items.map(item => {
         const isLost = item.type === 'lost';
         const date   = new Date(item.date_occurred + 'T00:00:00')
                        .toLocaleDateString('en-GB', { day:'numeric', month:'short' });
-        const emoji  = EMOJI[item.category.toLowerCase()] || '📦';
+        const icon   = ICONS[item.category.toLowerCase()] || '<i class="fas fa-box" style="color: #718096;"></i>';
         const loc    = [item.location, item.location_detail].filter(Boolean).join(' — ');
         return `
           <article class="item-card ${isLost ? 'item-card--lost' : 'item-card--found'}">
@@ -208,10 +215,10 @@ document.addEventListener('DOMContentLoaded', () => {
               </span>
               <span class="item-card__date">${date}</span>
             </div>
-            <div class="item-card__emoji">${emoji}</div>
+            <div class="item-card__emoji">${icon}</div>
             <div class="item-card__body">
               <h3 class="item-card__title">${item.title}</h3>
-              <p class="item-card__location">📍 ${loc}</p>
+              <p class="item-card__location"><i class="fas fa-map-marker-alt" style="color: #e53e3e; margin-right: 4px;"></i>${loc}</p>
               <p class="item-card__desc">${item.description}</p>
               <div class="item-card__footer">
                 <a href="#" class="btn btn--sm btn--ghost btn--block">View &amp; Contact</a>
