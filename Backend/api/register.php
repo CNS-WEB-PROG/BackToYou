@@ -8,13 +8,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $json = file_get_contents('php://input');
         $data = json_decode($json, true);
 
-        $name       = trim($data['name'] ?? '');
-        $student_id = trim($data['student_id'] ?? '');
-        $email      = trim($data['email'] ?? '');
-        $password   = $data['password'] ?? '';
-        $phone      = trim($data['phone'] ?? '');
+        // Schema note: users.fullname (not "name"), and there is no
+        // student_id column in the locked schema, so it is accepted from
+        // the request but intentionally not stored.
+        $fullname = trim($data['name'] ?? '');
+        $email    = trim($data['email'] ?? '');
+        $password = $data['password'] ?? '';
+        $phone    = trim($data['phone'] ?? '');
 
-        if (empty($name) || empty($email) || empty($password)) {
+        if (empty($fullname) || empty($email) || empty($password)) {
             echo json_encode(["success" => false, "error" => "Name, email, and password fields are required."]);
             exit;
         }
@@ -28,13 +30,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-        $sql = "INSERT INTO users (name, student_id, email, password, phone) VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO users (fullname, email, password, phone) VALUES (?, ?, ?, ?)";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
-            $name, 
-            $student_id ?: null, 
-            $email, 
-            $hashed_password, 
+            $fullname,
+            $email,
+            $hashed_password,
             $phone ?: null
         ]);
 
