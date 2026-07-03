@@ -11,7 +11,7 @@ USE backtoyou;
 -- ------------------------------------------------------
 -- users
 -- ------------------------------------------------------
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
     id         INT AUTO_INCREMENT PRIMARY KEY,
     fullname   VARCHAR(100) NOT NULL,
     email      VARCHAR(100) NOT NULL UNIQUE,
@@ -24,7 +24,7 @@ CREATE TABLE users (
 -- ------------------------------------------------------
 -- items
 -- ------------------------------------------------------
-CREATE TABLE items (
+CREATE TABLE IF NOT EXISTS items (
     id          INT AUTO_INCREMENT PRIMARY KEY,
     user_id     INT NOT NULL,
     item_type   ENUM('lost', 'found') NOT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE items (
 -- ------------------------------------------------------
 -- claims
 -- ------------------------------------------------------
-CREATE TABLE claims (
+CREATE TABLE IF NOT EXISTS claims (
     id           INT AUTO_INCREMENT PRIMARY KEY,
     item_id      INT NOT NULL,
     claimant_id  INT NOT NULL,
@@ -57,7 +57,7 @@ CREATE TABLE claims (
 -- ------------------------------------------------------
 -- notifications
 -- ------------------------------------------------------
-CREATE TABLE notifications (
+CREATE TABLE IF NOT EXISTS notifications (
     id         INT AUTO_INCREMENT PRIMARY KEY,
     user_id    INT NOT NULL,
     message    TEXT NOT NULL,
