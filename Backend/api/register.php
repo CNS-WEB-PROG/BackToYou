@@ -1,17 +1,23 @@
 <?php
-    require 'config.php';
+require 'config.php';
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+header('Content-Type: application/json');
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    try {
         $json = file_get_contents('php://input');
         $data = json_decode($json, true);
 
-        $name       = $data['name'] ?? '';
-        $student_id = $data['student_id'] ?? '';
-        $email      = $data['email'] ?? '';
+        $name       = trim($data['name'] ?? '');
+        $student_id = trim($data['student_id'] ?? '');
+        $email      = trim($data['email'] ?? '');
         $password   = $data['password'] ?? '';
-        $phone      = $data['phone'] ?? '';
+        $phone      = trim($data['phone'] ?? '');
 
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+        if (empty($name) || empty($email) || empty($password)) {
+            echo json_encode(["success" => false, "error" => "Name, email, and password fields are required."]);
+            exit;
+        }
 
         $check = $pdo->prepare("SELECT id FROM users WHERE email = ?");
         $check->execute([$email]);
@@ -20,20 +26,26 @@
             exit;
         }
 
-        if (!$name || !$email || !$password) {
-            echo json_encode(["success" => false, "error" => "All fields are required."]);
-            exit;
-        }
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
         $sql = "INSERT INTO users (name, student_id, email, password, phone) VALUES (?, ?, ?, ?, ?)";
         $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            $name, 
+            $student_id ?: null, 
+            $email, 
+            $hashed_password, 
+            $phone ?: null
+        ]);
 
-        try {
-            $stmt->execute([$name, $student_id, $email, $hashed_password, $phone]);
+        echo json_encode(["success" => true, "message" => "Account created!"]);
 
-            echo json_encode(["success" => true, "message" => "Account created!"]);
-        }catch (Exception $e) {
-            echo json_encode(["success" => false, "error" => "Registration Failed."]);
-        }
+    } catch (PDOException $e) {
+        http_response_code(500);
+        echo json_encode(["success" => false, "error" => "Registration Failed due to system error: " . $e->getMessage()]);
     }
+} else {
+    http_response_code(405);
+    echo json_encode(["success" => false, "error" => "Method not allowed."]);
+}
 ?>
