@@ -1,6 +1,6 @@
 <?php
-require 'config.php';
-require 'match_items.php';
+require __DIR__ . '/config.php';
+require __DIR__ . '/match_items.php';
 
 header('Content-Type: application/json');
 
