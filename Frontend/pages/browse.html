@@ -126,7 +126,6 @@
       </div>
 
       <div class="items-grid">
-
         <article class="item-card item-card--lost">
           <div class="item-card__header">
             <span class="item-card__badge item-card__badge--lost">Lost</span>
@@ -158,71 +157,6 @@
             </div>
           </div>
         </article>
-
-        <article class="item-card item-card--found">
-          <div class="item-card__header">
-            <span class="item-card__badge item-card__badge--found">Found</span>
-            <span class="item-card__date">Jun 18</span>
-          </div>
-          <div class="item-card__emoji"><i class="fa-solid fa-key"></i></div>
-          <div class="item-card__body">
-            <h3 class="item-card__title">Keys — 3 keys + blue lanyard</h3>
-            <p class="item-card__location"><i class="fa-solid fa-location-dot"></i> Gym locker room</p>
-            <p class="item-card__desc">Three keys on a ring with a blue lanyard and a bottle opener charm.</p>
-            <div class="item-card__footer">
-              <a href="#" class="btn btn--sm btn--ghost btn--block">View &amp; Contact</a>
-            </div>
-          </div>
-        </article>
-
-        <article class="item-card item-card--lost">
-          <div class="item-card__header">
-            <span class="item-card__badge item-card__badge--lost">Lost</span>
-            <span class="item-card__date">Jun 17</span>
-          </div>
-          <div class="item-card__emoji"><i class="fa-solid fa-headphones"></i></div>
-          <div class="item-card__body">
-            <h3 class="item-card__title">AirPods — white, no case</h3>
-            <p class="item-card__location"><i class="fa-solid fa-location-dot"></i> Library or 3rd floor stairs</p>
-            <p class="item-card__desc">2nd gen AirPods. One has a small scratch. No charging case.</p>
-            <div class="item-card__footer">
-              <a href="#" class="btn btn--sm btn--ghost btn--block">View &amp; Contact</a>
-            </div>
-          </div>
-        </article>
-
-        <article class="item-card item-card--found">
-          <div class="item-card__header">
-            <span class="item-card__badge item-card__badge--found">Found</span>
-            <span class="item-card__date">Jun 17</span>
-          </div>
-          <div class="item-card__emoji"><i class="fa-solid fa-shirt"></i></div>
-          <div class="item-card__body">
-            <h3 class="item-card__title">Grey Nike cap</h3>
-            <p class="item-card__location"><i class="fa-solid fa-location-dot"></i> Hallway near Room 110</p>
-            <p class="item-card__desc">Grey Nike snapback cap. Initials "J.R." written inside the brim.</p>
-            <div class="item-card__footer">
-              <a href="#" class="btn btn--sm btn--ghost btn--block">View &amp; Contact</a>
-            </div>
-          </div>
-        </article>
-
-        <article class="item-card item-card--lost">
-          <div class="item-card__header">
-            <span class="item-card__badge item-card__badge--lost">Lost</span>
-            <span class="item-card__date">Jun 16</span>
-          </div>
-          <div class="item-card__emoji"><i class="fa-solid fa-book"></i></div>
-          <div class="item-card__body">
-            <h3 class="item-card__title">Green spiral notebook — Science</h3>
-            <p class="item-card__location"><i class="fa-solid fa-location-dot"></i> Science block / Room 301</p>
-            <p class="item-card__desc">Green A4 spiral notebook with "Bio Notes" on the cover. Has name inside front cover.</p>
-            <div class="item-card__footer">
-              <a href="#" class="btn btn--sm btn--ghost btn--block">View &amp; Contact</a>
-            </div>
-          </div>
-        </article>
-
       </div>
 
       <div class="pagination">
@@ -250,27 +184,8 @@
       <p class="footer__copy">&copy; 2026 BackToYou. Built for schools.</p>
     </div>
   </footer>
-<script src="../js/browse.js"></script>
-<script src="../js/auth.js"></script>
-<script>
-  // Setup functional mapping to substitute dynamic category text strings with specific Font Awesome markup
-  const itemIconMap = {
-    'electronics': 'fa-laptop',
-    'bags & backpacks': 'fa-bag-shopping',
-    'bags': 'fa-bag-shopping',
-    'clothing': 'fa-shirt',
-    'keys & id': 'fa-key',
-    'books & stationery': 'fa-book',
-    'books': 'fa-book',
-    'sports gear': 'fa-basketball',
-    'sports': 'fa-basketball',
-    'other': 'fa-box'
-  };
 
-  function getFontAwesomeIcon(category) {
-    const cleanCategory = (category || '').toLowerCase().trim();
-    return itemIconMap[cleanCategory] || 'fa-box';
-  }
-</script>
+  <script src="../js/browse.js"></script>
+  <script src="../js/auth.js"></script>
 </body>
 </html>
