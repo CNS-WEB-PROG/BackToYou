@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,8 +11,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <link rel="stylesheet" href="../css/style.css" />
   <style>
-
-    /* --- DASHBOARD LAYOUT --- */
     .dashboard-wrap {
       max-width: 1100px;
       margin: 32px auto;
@@ -21,8 +20,6 @@
       gap: 24px;
       align-items: start;
     }
-
-    /* --- SIDEBAR --- */
     .dash-sidebar {
       display: flex;
       flex-direction: column;
@@ -86,22 +83,12 @@
       font-weight: 600;
     }
     .dash-nav-link__icon { font-size: 1rem; width: 20px; text-align: center; }
-
     .dash-nav-divider {
       height: 1px;
       background: var(--border);
       margin: 6px 0;
     }
-
-    /* --- MAIN AREA --- */
     .dash-main { display: flex; flex-direction: column; gap: 24px; }
-
-    /* --- STAT CARDS --- */
-    .dash-stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-    }
     .dash-stats {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -135,8 +122,6 @@
     }
     .dash-stat--match .dash-stat__num { color: var(--found-accent); }
     .dash-stat--lost  .dash-stat__num { color: var(--lost-accent); }
-
-    /* --- SECTION CARD --- */
     .dash-card {
       background: var(--surface);
       border-radius: var(--radius-md);
@@ -156,8 +141,6 @@
       font-weight: 700;
       color: var(--navy);
     }
-
-    /* --- ITEM ROWS --- */
     .item-row {
       display: flex;
       align-items: center;
@@ -194,8 +177,6 @@
       gap: 6px;
       flex-shrink: 0;
     }
-
-    /* --- MATCH ALERT --- */
     .match-alert {
       display: flex;
       align-items: flex-start;
@@ -223,8 +204,6 @@
       color: var(--text-muted);
       margin-top: 5px;
     }
-
-    /* --- EMPTY STATE --- */
     .dash-empty {
       padding: 40px 20px;
       text-align: center;
@@ -232,8 +211,6 @@
     }
     .dash-empty__icon { font-size: 2rem; margin-bottom: 8px; }
     .dash-empty p { font-size: 0.85rem; margin-bottom: 14px; }
-
-    /* --- QUICK ACTIONS --- */
     .quick-actions {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -257,16 +234,12 @@
       font-weight: 600;
       color: var(--navy);
     }
-
     @media (max-width: 768px) {
-      .dashboard-wrap {
-        grid-template-columns: 1fr;
-      }
+      .dashboard-wrap { grid-template-columns: 1fr; }
       .dash-sidebar { position: static; flex-direction: row; flex-wrap: wrap; }
       .dash-user { width: 100%; }
       .dash-stats { grid-template-columns: 1fr 1fr; }
     }
-
     @media (max-width: 480px) {
       .dash-stats { grid-template-columns: 1fr; }
       .quick-actions { grid-template-columns: 1fr; }
@@ -286,22 +259,19 @@
       <li><a href="report-found.html">Found Something?</a></li>
     </ul>
     <div class="nav__auth">
-      <span style="font-size:0.85rem; color:var(--text-secondary); font-weight:500;">Hi, Jamie</span>
+      <span style="font-size:0.85rem; color:var(--text-secondary); font-weight:500;"></span>
       <a href="login.html" class="btn btn--ghost">Log out</a>
     </div>
     <button class="nav__hamburger" aria-label="Open menu">&#9776;</button>
   </nav>
 
   <div class="dashboard-wrap">
-
     <aside class="dash-sidebar">
-
       <div class="dash-user">
-        <div class="dash-user__avatar">JR</div>
-        <div class="dash-user__name">Jamie Reyes</div>
+        <div class="dash-user__avatar"></div>
+        <div class="dash-user__name"></div>
         <div class="dash-user__grade">Year 10 · Student</div>
       </div>
-
       <a href="#overview" class="dash-nav-link active">
         <span class="dash-nav-link__icon"><i class="fa-solid fa-house"></i></span> Overview
       </a>
@@ -315,29 +285,25 @@
         <span class="dash-nav-link__icon"><i class="fa-solid fa-bell"></i></span> Matches &amp; Alerts
         <span style="margin-left:auto; background:var(--lost-accent); color:#fff; font-size:0.65rem; font-weight:700; padding:2px 6px; border-radius:10px;">2</span>
       </a>
-
       <div class="dash-nav-divider"></div>
-
       <a href="#" class="dash-nav-link">
         <span class="dash-nav-link__icon"><i class="fa-solid fa-gear"></i></span> Settings
       </a>
       <a href="login.html" class="dash-nav-link" style="color:var(--lost-accent);">
         <span class="dash-nav-link__icon"><i class="fa-solid fa-door-open"></i></span> Log out
       </a>
-
     </aside>
 
     <main class="dash-main">
-
       <div class="dash-stats">
         <div class="dash-stat dash-stat--lost">
           <div class="dash-stat__label">Items I lost</div>
-          <div class="dash-stat__num">2</div>
+          <div class="dash-stat__num">0</div>
           <div class="dash-stat__sub">1 still missing</div>
         </div>
         <div class="dash-stat">
           <div class="dash-stat__label">Items I found</div>
-          <div class="dash-stat__num">1</div>
+          <div class="dash-stat__num">0</div>
           <div class="dash-stat__sub">Pending claim</div>
         </div>
         <div class="dash-stat dash-stat--match">
@@ -352,7 +318,6 @@
           <span class="dash-card__title"><i class="fa-solid fa-bell" style="margin-right: 6px;"></i> Match alerts</span>
           <span style="font-size:0.75rem; color:var(--text-muted);">2 new</span>
         </div>
-
         <div class="match-alert">
           <div class="match-alert__icon"><i class="fa-solid fa-bag-shopping"></i></div>
           <div class="match-alert__body">
@@ -364,7 +329,6 @@
             <a href="browse.html" class="btn btn--sm btn--found">Review</a>
           </div>
         </div>
-
         <div class="match-alert">
           <div class="match-alert__icon"><i class="fa-solid fa-headphones"></i></div>
           <div class="match-alert__body">
@@ -376,7 +340,6 @@
             <a href="browse.html" class="btn btn--sm btn--found">Review</a>
           </div>
         </div>
-
       </div>
 
       <div class="dash-card" id="my-lost">
@@ -384,31 +347,6 @@
           <span class="dash-card__title">My lost items</span>
           <a href="report-lost.html" class="btn btn--sm btn--lost">+ Report new</a>
         </div>
-
-        <div class="item-row">
-          <div class="item-row__emoji"><i class="fa-solid fa-bag-shopping"></i></div>
-          <div class="item-row__info">
-            <div class="item-row__title">Blue JanSport backpack</div>
-            <div class="item-row__meta">📍 Room 204 · Posted Jun 19 · <span style="color:var(--found-accent); font-weight:600;">2 matches</span></div>
-          </div>
-          <div class="item-row__actions">
-            <span class="item-card__badge item-card__badge--lost">Active</span>
-            <button class="btn btn--sm btn--ghost">Edit</button>
-          </div>
-        </div>
-
-        <div class="item-row">
-          <div class="item-row__emoji"><i class="fa-solid fa-headphones"></i></div>
-          <div class="item-row__info">
-            <div class="item-row__title">AirPods — white, no case</div>
-            <div class="item-row__meta">📍 Library · Posted Jun 17 · <span style="color:var(--found-accent); font-weight:600;">1 match</span></div>
-          </div>
-          <div class="item-row__actions">
-            <span class="item-card__badge item-card__badge--lost">Active</span>
-            <button class="btn btn--sm btn--ghost">Edit</button>
-          </div>
-        </div>
-
       </div>
 
       <div class="dash-card" id="my-found">
@@ -416,19 +354,6 @@
           <span class="dash-card__title">Items I've found</span>
           <a href="report-found.html" class="btn btn--sm btn--found">+ Report found</a>
         </div>
-
-        <div class="item-row">
-          <div class="item-row__emoji"><i class="fa-solid fa-hat-cowboy-side"></i></div>
-          <div class="item-row__info">
-            <div class="item-row__title">Grey Nike cap</div>
-            <div class="item-row__meta">📍 Hallway Room 110 · Posted Jun 17 · Waiting for owner</div>
-          </div>
-          <div class="item-row__actions">
-            <span class="item-card__badge item-card__badge--found">Found</span>
-            <button class="btn btn--sm btn--ghost">Edit</button>
-          </div>
-        </div>
-
       </div>
 
       <div class="dash-card">
@@ -454,7 +379,6 @@
           </a>
         </div>
       </div>
-
     </main>
   </div>
 
@@ -472,131 +396,9 @@
       <p class="footer__copy">&copy; 2026 BackToYou. Built for schools.</p>
     </div>
   </footer>
+
   <script src="../js/nav.js"></script>
   <script src="../js/auth.js"></script>
-<script>
-  // Show real username in nav and sidebar
-  const storedName = sessionStorage.getItem('bty_name') || 'You';
-  const firstName  = storedName.split(' ')[0];
-  const initials   = storedName.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
-
-  document.querySelector('.dash-user__name').textContent = storedName;
-  document.querySelector('.dash-user__avatar').textContent = initials;
-  document.querySelector('.nav__auth span').textContent = `Hi, ${firstName}`;
-
-  // Load real items from API
-  async function loadMyItems() {
-    try {
-      const res  = await fetch('/backtoyou/Backend/api/get_items.php', {
-        credentials: 'include'
-      });
-      const data = await res.json();
-      if (!data.success) return;
-
-      const items      = data.items || [];
-      const myName      = storedName.toLowerCase();
-      const myItems    = items.filter(i => i.poster_name?.toLowerCase() === myName);
-      const lostItems  = myItems.filter(i => i.type === 'lost');
-      const foundItems = myItems.filter(i => i.type === 'found');
-
-      // Update stat numbers
-      const statNums = document.querySelectorAll('.dash-stat__num');
-      if (statNums[0]) statNums[0].textContent = lostItems.length;
-      if (statNums[1]) statNums[1].textContent = foundItems.length;
-
-      // Render lost items list
-      const lostCard = document.getElementById('my-lost');
-      const lostRows = lostCard.querySelectorAll('.item-row');
-      lostRows.forEach(r => r.remove());
-
-      if (lostItems.length === 0) {
-        lostCard.insertAdjacentHTML('beforeend',
-          `<div style="padding:24px;text-align:center;color:var(--text-muted);font-size:0.85rem;">
-            No lost items posted yet.
-           </div>`
-        );
-      } else {
-        lostItems.forEach(item => {
-          // Set dynamic icon mapping based on structural categories
-          let iconClass = 'fa-box';
-          const titleLower = item.title.toLowerCase();
-          if (titleLower.includes('bag') || titleLower.includes('pack')) iconClass = 'fa-bag-shopping';
-          else if (titleLower.includes('phone') || titleLower.includes('laptop') || titleLower.includes('airpods') || titleLower.includes('head')) iconClass = 'fa-headphones';
-          else if (titleLower.includes('cap') || titleLower.includes('hat') || titleLower.includes('shirt') || titleLower.includes('cloth')) iconClass = 'fa-shirt';
-
-          lostCard.insertAdjacentHTML('beforeend', `
-            <div class="item-row">
-              <div class="item-row__emoji"><i class="fa-solid ${iconClass}"></i></div>
-              <div class="item-row__info">
-                <div class="item-row__title">${item.title}</div>
-                <div class="item-row__meta">📍 ${item.location} · Posted ${new Date(item.created_at).toLocaleDateString('en-GB', {day:'numeric',month:'short'})}</div>
-              </div>
-              <div class="item-row__actions">
-                <span class="item-card__badge item-card__badge--lost">Active</span>
-              </div>
-            </div>
-          `);
-        });
-      }
-
-      // Render found items list
-      const foundCard = document.getElementById('my-found');
-      const foundRows = foundCard.querySelectorAll('.item-row');
-      foundRows.forEach(r => r.remove());
-
-      if (foundItems.length === 0) {
-        foundCard.insertAdjacentHTML('beforeend',
-          `<div style="padding:24px;text-align:center;color:var(--text-muted);font-size:0.85rem;">
-            No found items posted yet.
-           </div>`
-        );
-      } else {
-        foundItems.forEach(item => {
-          let iconClass = 'fa-box';
-          const titleLower = item.title.toLowerCase();
-          if (titleLower.includes('bag') || titleLower.includes('pack')) iconClass = 'fa-bag-shopping';
-          else if (titleLower.includes('phone') || titleLower.includes('laptop') || titleLower.includes('airpods') || titleLower.includes('head')) iconClass = 'fa-headphones';
-          else if (titleLower.includes('cap') || titleLower.includes('hat') || titleLower.includes('shirt') || titleLower.includes('cloth')) iconClass = 'fa-shirt';
-
-          foundCard.insertAdjacentHTML('beforeend', `
-            <div class="item-row">
-              <div class="item-row__emoji"><i class="fa-solid ${iconClass}"></i></div>
-              <div class="item-row__info">
-                <div class="item-row__title">${item.title}</div>
-                <div class="item-row__meta">📍 ${item.location} · Posted ${new Date(item.created_at).toLocaleDateString('en-GB', {day:'numeric',month:'short'})}</div>
-              </div>
-              <div class="item-row__actions">
-                <span class="item-card__badge item-card__badge--found">Found</span>
-              </div>
-            </div>
-          `);
-        });
-      }
-
-    } catch (err) {
-      console.error('Could not load items:', err);
-    }
-  }
-
-  // Logout button
-  document.querySelectorAll('a[href="login.html"]').forEach(link => {
-    if (link.textContent.trim() === 'Log out') {
-      link.addEventListener('click', async (e) => {
-        e.preventDefault();
-        await fetch('/backtoyou/Backend/api/login.php', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
-          body: JSON.stringify({ _method: 'DELETE' }),
-        });
-        sessionStorage.removeItem('bty_name');
-        window.location.href = 'login.html';
-      });
-    }
-  });
-
-  loadMyItems();
-</script>
-
+  <script src="../js/dashboard.js"></script>
 </body>
 </html>
