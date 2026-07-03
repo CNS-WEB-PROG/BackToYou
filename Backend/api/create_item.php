@@ -18,6 +18,8 @@ if (!isset($_SESSION['user_id'])) {
 
 $data = json_decode(file_get_contents('php://input'), true);
 
+// Request body keys are unchanged from before, so the frontend doesn't
+// need to change what it sends — only how we store it changes.
 $type            = $data['type']            ?? 'lost';
 $category        = trim($data['category']   ?? '');
 $title           = trim($data['title']      ?? '');
@@ -25,10 +27,9 @@ $description     = trim($data['description'] ?? '');
 $location        = trim($data['location']   ?? '');
 $location_detail = trim($data['location_detail'] ?? '');
 $date_occurred   = $data['date_occurred']   ?? date('Y-m-d');
-$time_occurred   = $data['time_occurred']   ?? null;
+$time_occurred   = $data['time_occurred']   ?? '';
 $item_held_at    = trim($data['item_held_at'] ?? '');
 $photo_path      = trim($data['photo_path'] ?? '');
-$notify_email    = isset($data['notify_email']) ? (int)$data['notify_email'] : 1;
 
 if (!in_array($type, ['lost','found']))  { echo json_encode(['success'=>false,'error'=>'Invalid type.']);        exit; }
 if (!$category)                          { echo json_encode(['success'=>false,'error'=>'Category is required.']); exit; }
@@ -36,39 +37,41 @@ if (!$title)                             { echo json_encode(['success'=>false,'e
 if (!$description)                       { echo json_encode(['success'=>false,'error'=>'Description is required.']); exit; }
 if (!$location)                          { echo json_encode(['success'=>false,'error'=>'Location is required.']); exit; }
 
+// The locked items table has no category / date_occurred / time_occurred /
+// location_detail / item_held_at columns. Rather than lose that info,
+// fold it into the description text as a metadata tag.
+$metaLines = ["Category: $category"];
+if ($date_occurred)   $metaLines[] = "Date: $date_occurred";
+if ($time_occurred)   $metaLines[] = "Time: $time_occurred";
+if ($location_detail) $metaLines[] = "Location detail: $location_detail";
+if ($item_held_at)    $metaLines[] = "Currently held at: $item_held_at";
+
+$fullDescription = $description . "\n\n[" . implode(' | ', $metaLines) . "]";
+
 try {
+    // Column mapping: type -> item_type, title -> item_name, photo_path -> image
     $stmt = $pdo->prepare("
         INSERT INTO items
-            (user_id, type, category, title, description,
-             location, location_detail, date_occurred, time_occurred,
-             item_held_at, photo_path, notify_email)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            (user_id, item_type, item_name, description, location, image)
+        VALUES (?, ?, ?, ?, ?, ?)
     ");
 
     $stmt->execute([
         $_SESSION['user_id'],
         $type,
-        $category,
         $title,
-        $description,
+        $fullDescription,
         $location,
-        $location_detail ?: null,
-        $date_occurred,
-        $time_occurred   ?: null,
-        $item_held_at    ?: null,
-        $photo_path      ?: null,
-        $notify_email,
+        $photo_path ?: null,
     ]);
 
     $newItemId = (int) $pdo->lastInsertId();
 
     $newItem = [
-        'id'          => $newItemId,
-        'type'        => $type,
-        'category'    => $category,
-        'title'       => $title,
-        'description' => $description,
-        'location'    => $location,
+        'id'       => $newItemId,
+        'type'     => $type,
+        'title'    => $title,
+        'location' => $location,
     ];
 
     try {

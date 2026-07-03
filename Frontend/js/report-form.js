@@ -135,8 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
       'item-name',
       'item-desc',
       'location',
-      'your-name',
-      'your-email',
+      
       isFoundForm ? 'item-location' : null,
       isFoundForm ? 'date-found' : 'date-lost',
     ].filter(Boolean);
