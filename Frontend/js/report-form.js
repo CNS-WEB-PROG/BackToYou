@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!formCard) return;
 
   const isFoundForm = !!document.getElementById('item-location');
-
   const categoryGrid = formCard.querySelector('.category-grid');
   let selectedCategory = null;
 
@@ -12,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     buttons.forEach((btn) => {
       const pressed = btn.classList.contains('selected');
       btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
-      if (pressed) selectedCategory = btn.textContent.trim();
+      if (pressed) selectedCategory = btn.getAttribute('data-category') || btn.textContent.trim();
 
       btn.addEventListener('click', () => {
         buttons.forEach((b) => {
@@ -21,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         btn.classList.add('selected');
         btn.setAttribute('aria-pressed', 'true');
-        selectedCategory = btn.textContent.trim();
+        selectedCategory = btn.getAttribute('data-category') || btn.textContent.trim();
         categoryGrid.style.outline = '';
       });
     });
@@ -32,7 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (uploadZone) {
     const originalHTML = uploadZone.innerHTML;
-
     const fileInput = document.createElement('input');
     fileInput.type = 'file';
     fileInput.accept = 'image/png, image/jpeg, image/heic';
@@ -93,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
           border: 'none',
           cursor: 'pointer',
           textDecoration: 'underline',
-        });
+         });
         removeBtn.addEventListener('click', (evt) => {
           evt.stopPropagation();
           selectedFile = null;
@@ -130,12 +128,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function validate() {
     const invalidFields = [];
-
     const requiredIds = [
       'item-name',
       'item-desc',
       'location',
-      
       isFoundForm ? 'item-location' : null,
       isFoundForm ? 'date-found' : 'date-lost',
     ].filter(Boolean);
@@ -150,15 +146,6 @@ document.addEventListener('DOMContentLoaded', () => {
         clearFieldError(field);
       }
     });
-
-    const emailField = document.getElementById('your-email');
-    if (emailField && emailField.value.trim()) {
-      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailPattern.test(emailField.value.trim())) {
-        showFieldError(emailField, 'Enter a valid email address.');
-        invalidFields.push(emailField);
-      }
-    }
 
     if (categoryGrid) {
       if (!selectedCategory) {
@@ -187,48 +174,57 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      
-
-      const payload = {
-        type: isFoundForm ? 'found' : 'lost',
-        category: selectedCategory,
-        itemName: document.getElementById('item-name').value.trim(),
-        description: document.getElementById('item-desc').value.trim(),
-        location: document.getElementById('location').value,
-        locationDetail: document.getElementById('location-detail')?.value.trim() || '',
-        date: document.getElementById(isFoundForm ? 'date-found' : 'date-lost').value,
-        time: document.getElementById(isFoundForm ? 'time-found' : 'time-lost')?.value || '',
-        itemCurrentLocation: isFoundForm ? document.getElementById('item-location').value : null,
-        reporterName: document.getElementById('your-name').value.trim(),
-        reporterEmail: document.getElementById('your-email').value.trim(),
-        reporterGrade: document.getElementById('your-grade')?.value || '',
-        notifyMe: formCard.querySelector('.form-group input[type="checkbox"]')?.checked ?? true,
-        photo: selectedFile,
-      };
-
       submitBtn.disabled = true;
       const originalLabel = submitBtn.textContent;
       submitBtn.textContent = 'Posting…';
 
-      try {
-        console.log('BackToYou submission payload:', payload);
-        await new Promise((resolve) => setTimeout(resolve, 500));
+      const formData = new FormData();
+      formData.append('category', selectedCategory);
+      formData.append('name', document.getElementById('item-name').value.trim());
+      formData.append('description', document.getElementById('item-desc').value.trim());
+      formData.append('location', document.getElementById('location').value);
+      formData.append('location_detail', document.getElementById('location-detail')?.value.trim() || '');
+      formData.append('date_found', document.getElementById(isFoundForm ? 'date-found' : 'date-lost').value);
+      formData.append('time_found', document.getElementById(isFoundForm ? 'time-found' : 'time-lost')?.value || '');
+     
+      if (isFoundForm) {
+        formData.append('current_status', document.getElementById('item-location').value);
+      }
+      if (selectedFile) {
+        formData.append('photo', selectedFile);
+      }
 
-        formCard.innerHTML = `
-          <div style="text-align:center; padding: 32px 8px;">
-            <div style="font-size:2.5rem; margin-bottom:8px;">✅</div>
-            <h3 style="margin-bottom:6px;">Posted!</h3>
-            <p style="color:var(--text-muted); font-size:0.9rem;">
-              We'll email you the moment someone reports a matching
-              ${isFoundForm ? 'lost' : 'found'} item.
-            </p>
-          </div>
-        `;
+      const endpoint = isFoundForm ? '../api/report-found.php' : '../api/report-lost.php';
+
+      try {
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          credentials: 'include',
+          body: formData
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+          formCard.innerHTML = `
+            <div style="text-align:center; padding: 32px 8px;">
+              <div style="font-size:2.5rem; margin-bottom:8px;">✅</div>
+              <h3 style="margin-bottom:6px;">Posted!</h3>
+              <p style="color:var(--text-muted); font-size:0.9rem;">
+                We'll notify you the moment someone reports a matching
+                ${isFoundForm ? 'lost' : 'found'} item.
+              </p>
+            </div>
+          `;
+        } else {
+          alert(data.error || 'Failed to submit your post. Please try again.');
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalLabel;
+        }
       } catch (err) {
-        console.error(err);
         submitBtn.disabled = false;
         submitBtn.textContent = originalLabel;
-        alert('Something went wrong posting your item. Please try again.');
+        alert('Network error — please verify connection parameters and try again.');
       }
     });
   }
