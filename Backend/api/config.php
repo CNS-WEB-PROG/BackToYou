@@ -4,7 +4,7 @@ session_start();
 $host = 'localhost';
 $dbname = 'backtoyou';
 $username = 'root';
-$password = 'mariadb';   // Change this only if your MySQL password is different
+$password = '';  
 
 try {
     $pdo = new PDO(
