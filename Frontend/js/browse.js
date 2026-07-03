@@ -2,9 +2,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const grid = document.querySelector('.items-grid');
   if (!grid) return;
 
-  const ITEMS_PER_PAGE = 6; 
+  const ITEMS_PER_PAGE = 6;
   let currentPage = 1;
 
+  // DOM Selection Matrix
   const searchInput = document.querySelector('.search-bar__input');
   const searchSelects = document.querySelectorAll('.search-bar .search-bar__select');
   const searchCategorySelect = searchSelects[0] || null;
@@ -15,13 +16,30 @@ document.addEventListener('DOMContentLoaded', () => {
   const filterGroups = document.querySelectorAll('.filter-group');
   const paginationContainer = document.querySelector('.pagination');
 
+  // Centralized Dynamic Icon Mapping Configuration
+  const ICONS = {
+    'electronics': '<i class="fas fa-laptop" style="color: #3182ce;"></i>',
+    'bags & backpacks': '<i class="fas fa-backpack" style="color: #dd6b20;"></i>',
+    'bags': '<i class="fas fa-backpack" style="color: #dd6b20;"></i>',
+    'clothing': '<i class="fas fa-tshirt" style="color: #38a169;"></i>',
+    'keys & id': '<i class="fas fa-key" style="color: #e53e3e;"></i>',
+    'books & stationery': '<i class="fas fa-book" style="color: #805ad5;"></i>',
+    'books': '<i class="fas fa-book" style="color: #805ad5;"></i>',
+    'sports gear': '<i class="fas fa-football-ball" style="color: #d69e2e;"></i>',
+    'sports': '<i class="fas fa-football-ball" style="color: #d69e2e;"></i>',
+    'accessories': '<i class="fas fa-glasses" style="color: #319795;"></i>',
+    'wallet': '<i class="fas fa-wallet" style="color: #b7791f;"></i>',
+    'other': '<i class="fas fa-box" style="color: #718096;"></i>'
+  };
+
+  // Interactive Chip Selection Listeners
   filterGroups.forEach((group) => {
     const chips = group.querySelectorAll('.filter-chip');
     chips.forEach((chip) => {
       chip.addEventListener('click', () => {
         chips.forEach((c) => c.classList.remove('active'));
         chip.classList.add('active');
-        currentPage = 1; 
+        currentPage = 1;
         applyFiltersAndPagination();
       });
     });
@@ -37,11 +55,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function parseCardDate(card) {
     const raw = card.querySelector('.item-card__date')?.textContent.trim();
-    if (!raw) return new Date(); 
-    
+    if (!raw) return new Date();
+   
     const year = new Date().getFullYear();
     const parsed = new Date(`${raw} ${year}`);
-    return isNaN(parsed.getTime()) ? new Date() : parsed; 
+    return isNaN(parsed.getTime()) ? new Date() : parsed;
   }
 
   function matchesDateFilter(card, filterValue) {
@@ -49,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const cardDate = parseCardDate(card);
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    
+   
     const compareDate = new Date(cardDate.getTime());
     compareDate.setHours(0, 0, 0, 0);
     const diffDays = Math.round((today - compareDate) / 86400000);
@@ -60,6 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return true;
   }
 
+  // Unified Filtering and In-Memory Client-Side Pagination Pipeline
   function applyFiltersAndPagination() {
     const searchText = (searchInput?.value || '').trim().toLowerCase();
     const status = getActiveChipText(0);
@@ -174,39 +193,37 @@ document.addEventListener('DOMContentLoaded', () => {
     applyFiltersAndPagination();
   }
 
+  // Hook Search and Select Input Events
   searchInput?.addEventListener('input', () => { currentPage = 1; applyFiltersAndPagination(); });
   searchCategorySelect?.addEventListener('change', () => { currentPage = 1; applyFiltersAndPagination(); });
   searchDateSelect?.addEventListener('change', () => { currentPage = 1; applyFiltersAndPagination(); });
   searchBtn?.addEventListener('click', () => { currentPage = 1; applyFiltersAndPagination(); });
   sortSelect?.addEventListener('change', applySort);
 
+  // Asynchronous Database Feed Ingestion REST Pipeline
   async function loadFromAPI() {
     try {
-      const res  = await fetch('/BackToYou/Backend/get_items.php', { credentials: 'include' });
+      // Relative sub-directory path mapping configured to hit the proper API router
+      const res = await fetch('../api/items.php', { credentials: 'include' });
       const data = await res.json();
-      if (!data.success || !data.items.length) {
+     
+      if (!data.success || !data.items || !data.items.length) {
         toggleEmptyState(true);
+        if (countLabel) countLabel.textContent = "0 items";
         return;
       }
 
-      const ICONS = {
-        'electronics': '<i class="fas fa-laptop" style="color: #3182ce;"></i>',
-        'bags':        '<i class="fas fa-backpack" style="color: #dd6b20;"></i>',
-        'clothing':    '<i class="fas fa-tshirt" style="color: #38a169;"></i>',
-        'keys & id':   '<i class="fas fa-key" style="color: #e53e3e;"></i>',
-        'books':       '<i class="fas fa-book" style="color: #805ad5;"></i>',
-        'sports':      '<i class="fas fa-football-ball" style="color: #d69e2e;"></i>',
-        'accessories': '<i class="fas fa-glasses" style="color: #319795;"></i>',
-        'wallet':      '<i class="fas fa-wallet" style="color: #b7791f;"></i>',
-        'other':       '<i class="fas fa-box" style="color: #718096;"></i>'
-      };
-
       grid.innerHTML = data.items.map(item => {
         const isLost = item.type === 'lost';
-        const date   = new Date(item.date_occurred + 'T00:00:00')
-                       .toLocaleDateString('en-GB', { day:'numeric', month:'short' });
-        const icon   = ICONS[item.category.toLowerCase()] || '<i class="fas fa-box" style="color: #718096;"></i>';
-        const loc    = [item.location, item.location_detail].filter(Boolean).join(' — ');
+       
+        // Standardize dynamic dates explicitly using ISO bounds safely
+        const date = new Date(item.date_occurred + 'T00:00:00')
+                       .toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+       
+        // Match icon dictionary safely
+        const icon = ICONS[item.category.toLowerCase().trim()] || '<i class="fas fa-box" style="color: #718096;"></i>';
+        const loc = [item.location, item.location_detail].filter(Boolean).join(' — ');
+       
         return `
           <article class="item-card ${isLost ? 'item-card--lost' : 'item-card--found'}">
             <div class="item-card__header">
@@ -227,12 +244,13 @@ document.addEventListener('DOMContentLoaded', () => {
           </article>`;
       }).join('');
 
-      applySort(); 
+      applySort();
     } catch (err) {
-      console.error('Could not load items from API:', err);
+      console.error('Could not fetch items from API backend framework:', err);
       toggleEmptyState(true);
     }
   }
 
-  loadFromAPI(); 
+  // Initial Runtime Trigger Execution
+  loadFromAPI();
 });
