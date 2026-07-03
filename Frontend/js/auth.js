@@ -3,7 +3,7 @@ const userName = sessionStorage.getItem("bty_name");
 const userId = sessionStorage.getItem("bty_user_id");
 
 if (!userName || !userId) {
-    window.location.href = "login.html";
+    window.location.href = "pages/login.html";
 }
 
 // Make the values available everywhere
