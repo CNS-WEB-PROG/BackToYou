@@ -221,7 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
               <p class="item-card__location"><i class="fas fa-map-marker-alt" style="color: #e53e3e; margin-right: 4px;"></i>${loc}</p>
               <p class="item-card__desc">${item.description}</p>
               <div class="item-card__footer">
-                <a href="#" class="btn btn--sm btn--ghost btn--block">View &amp; Contact</a>
+                <a href="item-details.html?id=${item.id}" class="btn btn--sm btn--ghost btn--block">View &amp; Contact</a>
               </div>
             </div>
           </article>`;
