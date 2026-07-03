@@ -182,7 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function loadFromAPI() {
     try {
-      const res  = await fetch('/backtoyou/Backend/api/get_items.php', { credentials: 'include' });
+      const res  = await fetch('/BackToYou/Backend/api/get_items.php', { credentials: 'include' });
       const data = await res.json();
       if (!data.success || !data.items.length) {
         toggleEmptyState(true);
