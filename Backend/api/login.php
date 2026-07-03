@@ -40,8 +40,9 @@ try {
 
         echo json_encode([
             'success' => true,
-            'message' => 'Logged in!',
-            'name' => $user['fullname']
+            'user_id' => (int)$user['id'],
+            'name' => $user['fullname'],
+            'email' => $user['email']
         ]);
     } else {
         echo json_encode(['success' => false, 'error' => 'Invalid email or password.']);
