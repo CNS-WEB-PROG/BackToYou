@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 $host = 'localhost';
 $dbname = 'backtoyou';
@@ -12,11 +14,10 @@ try {
         $username,
         $password
     );
-
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    echo "Connected to BackToYou database successfully!";
 } catch (PDOException $e) {
-    die("Database connection failed: " . $e->getMessage());
+    header('Content-Type: application/json');
+    http_response_code(500);
+    die(json_encode(["success" => false, "error" => "Database connection failed: " . $e->getMessage()]));
 }
 ?>

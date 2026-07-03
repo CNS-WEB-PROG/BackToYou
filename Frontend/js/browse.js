@@ -2,6 +2,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const grid = document.querySelector('.items-grid');
   if (!grid) return;
 
+  const ITEMS_PER_PAGE = 6; 
+  let currentPage = 1;
+
   const searchInput = document.querySelector('.search-bar__input');
   const searchSelects = document.querySelectorAll('.search-bar .search-bar__select');
   const searchCategorySelect = searchSelects[0] || null;
@@ -10,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const sortSelect = document.querySelector('.browse-main__toolbar .search-bar__select');
   const countLabel = document.querySelector('.browse-count strong');
   const filterGroups = document.querySelectorAll('.filter-group');
-  const paginationBtns = document.querySelectorAll('.pagination .page-btn');
+  const paginationContainer = document.querySelector('.pagination');
 
   filterGroups.forEach((group) => {
     const chips = group.querySelectorAll('.filter-chip');
@@ -18,7 +21,8 @@ document.addEventListener('DOMContentLoaded', () => {
       chip.addEventListener('click', () => {
         chips.forEach((c) => c.classList.remove('active'));
         chip.classList.add('active');
-        applyFilters();
+        currentPage = 1; 
+        applyFiltersAndPagination();
       });
     });
   });
@@ -33,20 +37,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function parseCardDate(card) {
     const raw = card.querySelector('.item-card__date')?.textContent.trim();
-    if (!raw) return null;
+    if (!raw) return new Date(); 
+    
     const year = new Date().getFullYear();
     const parsed = new Date(`${raw} ${year}`);
-    return isNaN(parsed) ? null : parsed;
+    return isNaN(parsed.getTime()) ? new Date() : parsed; 
   }
 
   function matchesDateFilter(card, filterValue) {
     if (!filterValue) return true;
     const cardDate = parseCardDate(card);
-    if (!cardDate) return true;
-
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    const diffDays = Math.round((today - cardDate) / 86400000);
+    
+    const compareDate = new Date(cardDate.getTime());
+    compareDate.setHours(0, 0, 0, 0);
+    const diffDays = Math.round((today - compareDate) / 86400000);
 
     if (filterValue === 'Today') return diffDays === 0;
     if (filterValue === 'This week') return diffDays >= 0 && diffDays <= 7;
@@ -54,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return true;
   }
 
-  function applyFilters() {
+  function applyFiltersAndPagination() {
     const searchText = (searchInput?.value || '').trim().toLowerCase();
     const status = getActiveChipText(0);
     const locationChip = getActiveChipText(1);
@@ -62,36 +68,83 @@ document.addEventListener('DOMContentLoaded', () => {
     const dropdownCategory = searchCategorySelect?.value || '';
     const dropdownDate = searchDateSelect?.value || '';
 
-    let visibleCount = 0;
+    const allCards = Array.from(grid.querySelectorAll('.item-card'));
+    let matchedCards = [];
 
-    grid.querySelectorAll('.item-card').forEach((card) => {
+    allCards.forEach((card) => {
       const text = card.textContent.toLowerCase();
       const isLost = card.classList.contains('item-card--lost');
       const isFound = card.classList.contains('item-card--found');
-
       let visible = true;
 
       if (searchText && !text.includes(searchText)) visible = false;
       if (status === 'Lost only' && !isLost) visible = false;
       if (status === 'Found only' && !isFound) visible = false;
-
-      if (locationChip && locationChip !== 'Anywhere' && !text.includes(locationChip.toLowerCase())) {
-        visible = false;
-      }
-      if (categoryChip && categoryChip !== 'All' && !text.includes(categoryChip.toLowerCase())) {
-        visible = false;
-      }
-      if (dropdownCategory && !text.includes(dropdownCategory.toLowerCase())) {
-        visible = false;
-      }
+      if (locationChip && locationChip !== 'Anywhere' && !text.includes(locationChip.toLowerCase())) visible = false;
+      if (categoryChip && categoryChip !== 'All' && !text.includes(categoryChip.toLowerCase())) visible = false;
+      if (dropdownCategory && !text.includes(dropdownCategory.toLowerCase())) visible = false;
       if (!matchesDateFilter(card, dropdownDate)) visible = false;
 
-      card.style.display = visible ? '' : 'none';
-      if (visible) visibleCount += 1;
+      if (visible) {
+        matchedCards.push(card);
+      } else {
+        card.style.display = 'none';
+      }
     });
 
+    const visibleCount = matchedCards.length;
     if (countLabel) countLabel.textContent = `${visibleCount} item${visibleCount === 1 ? '' : 's'}`;
     toggleEmptyState(visibleCount === 0);
+
+    const totalPages = Math.ceil(visibleCount / ITEMS_PER_PAGE) || 1;
+    if (currentPage > totalPages) currentPage = totalPages;
+
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+
+    matchedCards.forEach((card, index) => {
+      card.style.display = (index >= startIndex && index < endIndex) ? '' : 'none';
+    });
+
+    renderPaginationInterface(totalPages);
+  }
+
+  function renderPaginationInterface(totalPages) {
+    if (!paginationContainer) return;
+    paginationContainer.innerHTML = '';
+    if (totalPages <= 1) return;
+
+    for (let i = 1; i <= totalPages; i++) {
+      const btn = document.createElement('button');
+      btn.className = `page-btn ${i === currentPage ? 'active' : ''}`;
+      btn.textContent = i;
+      btn.addEventListener('click', () => {
+        currentPage = i;
+        applyFiltersAndPagination();
+        scrollToToolbarTop();
+      });
+      paginationContainer.appendChild(btn);
+    }
+
+    const nextBtn = document.createElement('button');
+    nextBtn.className = 'page-btn';
+    nextBtn.innerHTML = '<i class="fas fa-chevron-right" style="color: #4a5568;"></i>';
+    if (currentPage === totalPages) {
+      nextBtn.style.opacity = '0.4';
+      nextBtn.style.cursor = 'not-allowed';
+    } else {
+      nextBtn.addEventListener('click', () => {
+        currentPage++;
+        applyFiltersAndPagination();
+        scrollToToolbarTop();
+      });
+    }
+    paginationContainer.appendChild(nextBtn);
+  }
+
+  function scrollToToolbarTop() {
+    const mainToolbar = document.querySelector('.browse-main__toolbar');
+    if (mainToolbar) mainToolbar.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
   function toggleEmptyState(show) {
@@ -100,10 +153,9 @@ document.addEventListener('DOMContentLoaded', () => {
       empty = document.createElement('div');
       empty.className = 'empty-state';
       empty.innerHTML = `
-        <div class="empty-state__icon">🔍</div>
+        <div class="empty-state__icon"><i class="fas fa-search" style="color: #a0aec0;"></i></div>
         <p class="empty-state__title">No items match your filters</p>
-        <p>Try clearing a filter or searching a different keyword.</p>
-      `;
+        <p>Try clearing a filter or searching a different keyword.</p>`;
       grid.appendChild(empty);
     } else if (!show && empty) {
       empty.remove();
@@ -119,47 +171,41 @@ document.addEventListener('DOMContentLoaded', () => {
       return sortSelect.value === 'Oldest first' ? dateA - dateB : dateB - dateA;
     });
     cards.forEach((card) => grid.appendChild(card));
+    applyFiltersAndPagination();
   }
 
-  paginationBtns.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      if (btn.textContent.trim() === '›') {
-        const active = document.querySelector('.pagination .page-btn.active');
-        const next = active?.nextElementSibling;
-        if (next?.classList.contains('page-btn') && /^\d+$/.test(next.textContent.trim())) {
-          paginationBtns.forEach((b) => b.classList.remove('active'));
-          next.classList.add('active');
-        }
-        return;
-      }
-      paginationBtns.forEach((b) => b.classList.remove('active'));
-      btn.classList.add('active');
-    });
-  });
-
-  searchInput?.addEventListener('input', applyFilters);
-  searchCategorySelect?.addEventListener('change', applyFilters);
-  searchDateSelect?.addEventListener('change', applyFilters);
-  searchBtn?.addEventListener('click', applyFilters);
+  searchInput?.addEventListener('input', () => { currentPage = 1; applyFiltersAndPagination(); });
+  searchCategorySelect?.addEventListener('change', () => { currentPage = 1; applyFiltersAndPagination(); });
+  searchDateSelect?.addEventListener('change', () => { currentPage = 1; applyFiltersAndPagination(); });
+  searchBtn?.addEventListener('click', () => { currentPage = 1; applyFiltersAndPagination(); });
   sortSelect?.addEventListener('change', applySort);
 
-  // Load real items from API
   async function loadFromAPI() {
     try {
-      const res  = await fetch('/backtoyou/Backend/api/get_items.php', { credentials: 'include' });
+      const res  = await fetch('/BackToYou/Backend/get_items.php', { credentials: 'include' });
       const data = await res.json();
-      if (!data.success || !data.items.length) return;
+      if (!data.success || !data.items.length) {
+        toggleEmptyState(true);
+        return;
+      }
 
-      const EMOJI = {
-        'electronics':'📱','bags':'🎒','clothing':'👕','keys & id':'🔑',
-        'books':'📚','sports':'⚽','accessories':'🎧','wallet':'💳','other':'📦',
+      const ICONS = {
+        'electronics': '<i class="fas fa-laptop" style="color: #3182ce;"></i>',
+        'bags':        '<i class="fas fa-backpack" style="color: #dd6b20;"></i>',
+        'clothing':    '<i class="fas fa-tshirt" style="color: #38a169;"></i>',
+        'keys & id':   '<i class="fas fa-key" style="color: #e53e3e;"></i>',
+        'books':       '<i class="fas fa-book" style="color: #805ad5;"></i>',
+        'sports':      '<i class="fas fa-football-ball" style="color: #d69e2e;"></i>',
+        'accessories': '<i class="fas fa-glasses" style="color: #319795;"></i>',
+        'wallet':      '<i class="fas fa-wallet" style="color: #b7791f;"></i>',
+        'other':       '<i class="fas fa-box" style="color: #718096;"></i>'
       };
 
       grid.innerHTML = data.items.map(item => {
         const isLost = item.type === 'lost';
         const date   = new Date(item.date_occurred + 'T00:00:00')
-                         .toLocaleDateString('en-GB', { day:'numeric', month:'short' });
-        const emoji  = EMOJI[item.category.toLowerCase()] || '📦';
+                       .toLocaleDateString('en-GB', { day:'numeric', month:'short' });
+        const icon   = ICONS[item.category.toLowerCase()] || '<i class="fas fa-box" style="color: #718096;"></i>';
         const loc    = [item.location, item.location_detail].filter(Boolean).join(' — ');
         return `
           <article class="item-card ${isLost ? 'item-card--lost' : 'item-card--found'}">
@@ -169,23 +215,22 @@ document.addEventListener('DOMContentLoaded', () => {
               </span>
               <span class="item-card__date">${date}</span>
             </div>
-            <div class="item-card__emoji">${emoji}</div>
+            <div class="item-card__emoji">${icon}</div>
             <div class="item-card__body">
               <h3 class="item-card__title">${item.title}</h3>
-              <p class="item-card__location">📍 ${loc}</p>
+              <p class="item-card__location"><i class="fas fa-map-marker-alt" style="color: #e53e3e; margin-right: 4px;"></i>${loc}</p>
               <p class="item-card__desc">${item.description}</p>
               <div class="item-card__footer">
-                <a href="#" class="btn btn--sm btn--ghost btn--block">View &amp; Contact</a>
+                <a href="item-details.html?id=${item.id}" class="btn btn--sm btn--ghost btn--block">View &amp; Contact</a>
               </div>
             </div>
-          </article>
-        `;
+          </article>`;
       }).join('');
 
-      if (countLabel) countLabel.textContent = `${data.items.length} item${data.items.length === 1 ? '' : 's'}`;
-      applyFilters();
+      applySort(); 
     } catch (err) {
       console.error('Could not load items from API:', err);
+      toggleEmptyState(true);
     }
   }
 
