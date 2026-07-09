@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // login.html can't be correct from both places. Work out which one we're on.
     const inPagesFolder = window.location.pathname.includes("/pages/");
     const loginPath = inPagesFolder ? "login.html" : "pages/login.html";
+    const backendPath = inPagesFolder ? "../../Backend/api/" : "../Backend/api/";
 
     if (!storedName) {
         if (isDashboard) {
@@ -65,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
             e.preventDefault();
 
             try {
-                await fetch("/backtoyou/Backend/api/login.php", {
+                await fetch(backendPath + "login.php", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
