@@ -3,74 +3,52 @@ require 'config.php';
 
 header('Content-Type: application/json');
 
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(405);
+    echo json_encode(['success' => false, 'error' => 'Method not allowed.']);
+    exit;
+}
+
+$data = json_decode(file_get_contents('php://input'), true);
+
 // dashboard.html's logout link POSTs { _method: 'DELETE' } to this same
 // endpoint instead of hitting a separate logout.php.
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $data = json_decode(file_get_contents('php://input'), true);
-    if (($data['_method'] ?? '') === 'DELETE') {
-        $_SESSION = [];
-        session_destroy();
-        echo json_encode(['success' => true, 'message' => 'Logged out.']);
-        exit;
-    }
+if (($data['_method'] ?? '') === 'DELETE') {
+    $_SESSION = [];
+    session_destroy();
+    echo json_encode(['success' => true, 'message' => 'Logged out.']);
+    exit;
 }
 
 try {
-    $stmt = $pdo->query("
-        SELECT
-            items.id, items.item_type AS type, items.item_name AS title,
-            items.description, items.location, items.image, items.status,
-            items.created_at, items.user_id, users.fullname AS poster_name,
-            users.email AS poster_email
-        FROM items
-        JOIN users ON users.id = items.user_id
-        ORDER BY items.created_at DESC
-    ");
-    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $email = trim($data['email'] ?? '');
+    $password = $data['password'] ?? '';
 
-    // create_item.php packs category/date_occurred/time_occurred/
-    // location_detail/item_held_at into the description as a trailing
-    // "[Category: X | Date: Y | ...]" tag, since the locked schema has no
-    // columns for them. Unpack that tag back into real fields here.
-    $items = array_map(function ($row) {
-        $description     = $row['description'];
-        $category        = 'Other';
-        $date_occurred   = date('Y-m-d', strtotime($row['created_at']));
-        $location_detail = '';
+    if (empty($email) || empty($password)) {
+        echo json_encode(['success' => false, 'error' => 'Email and password fields are required.']);
+        exit;
+    }
 
-        if (preg_match('/\[(.*)\]\s*$/s', $description, $m)) {
-            $description = trim(str_replace('[' . $m[1] . ']', '', $description));
-            foreach (explode('|', $m[1]) as $part) {
-                $kv = array_map('trim', explode(':', $part, 2));
-                if (count($kv) < 2) continue;
-                [$key, $value] = $kv;
-                if ($key === 'Category')         $category = $value;
-                if ($key === 'Date')             $date_occurred = $value;
-                if ($key === 'Location detail')  $location_detail = $value;
-            }
-        }
+    // Schema note: users.fullname (not "name")
+    $stmt = $pdo->prepare("SELECT id, fullname, email, password FROM users WHERE email = ?");
+    $stmt->execute([$email]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        return [
-            'id'              => (int)$row['id'],
-            'type'            => $row['type'],
-            'title'           => $row['title'],
-            'description'     => $description,
-            'category'        => $category,
-            'location'        => $row['location'],
-            'location_detail' => $location_detail,
-            'date_occurred'   => $date_occurred,
-            'image'           => $row['image'],
-            'status'          => $row['status'],
-            'created_at'      => $row['created_at'],
-            'poster_name'     => $row['poster_name'],
-            'poster_email'    => $row['poster_email'],
-        ];
-    }, $rows);
+    if ($user && password_verify($password, $user['password'])) {
+        $_SESSION['user_id'] = (int)$user['id'];
+        $_SESSION['user_name'] = $user['fullname'];
 
-    echo json_encode(['success' => true, 'items' => $items]);
-
+        echo json_encode([
+            'success' => true,
+            'user_id' => (int)$user['id'],
+            'name' => $user['fullname'],
+            'email' => $user['email']
+        ]);
+    } else {
+        echo json_encode(['success' => false, 'error' => 'Invalid email or password.']);
+    }
 } catch (PDOException $e) {
     http_response_code(500);
-    echo json_encode(['success' => false, 'error' => 'Could not load items: ' . $e->getMessage()]);
+    echo json_encode(['success' => false, 'error' => 'Login system failure: ' . $e->getMessage()]);
 }
 ?>
