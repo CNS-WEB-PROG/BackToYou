@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             sessionStorage.clear();
 
-            window.location.href = "login.html";
+            window.location.href = "pages/login.html";
         });
     }
 

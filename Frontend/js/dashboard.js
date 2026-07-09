@@ -9,8 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function loadMyItems() {
     try {
-      const res = await fetch('../api/get_items.php', {
-        credentials: 'include'
+      const res = await fetch('../../Backend/api/get_items.php', {
+        credentials: 'include',
+        method: 'POST'
       });
       const data = await res.json();
       if (!data.success) return;
