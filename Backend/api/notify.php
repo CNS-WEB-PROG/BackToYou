@@ -2,7 +2,7 @@
 define('BREVO_API_KEY', ' '); 
 define('SENDER_EMAIL',  'noreply@backtoyou.com');
 define('SENDER_NAME',   'BackToYou');
-define('SITE_URL',      'http://localhost/backtoyou/Frontend/pages/browse.html');
+define('SITE_URL',      'http://localhost/BackToYou/Frontend/pages/browse.html');
 define('USE_BREVO',     false); 
 
 function sendMatchNotification(
@@ -23,7 +23,7 @@ function sendMatchNotification(
       <p style='margin-top:20px;'><a href='" . SITE_URL . "' style='background:#1e3a5f;color:#fff;padding:12px 24px;border-radius:6px;text-decoration:none;display:inline-block;font-weight:bold;'>View on BackToYou →</a></p>
     </div>";
 
-    $logDir = __DIR__ . '/../../logs';
+    $logDir = _DIR_ . '/../../logs';
     if (!is_dir($logDir)) { @mkdir($logDir, 0755, true); }
     $logFile = $logDir . '/mail.log';
 
