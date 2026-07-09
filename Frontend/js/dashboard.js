@@ -9,8 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function loadMyItems() {
     try {
-      const res = await fetch('../api/get_items.php', {
-        credentials: 'include'
+      const res = await fetch('/backtoyou/Backend/api/get_items.php', {
+        credentials: 'include',
+        method: 'POST'
       });
       const data = await res.json();
       if (!data.success) return;
@@ -100,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
       link.addEventListener('click', async (e) => {
         e.preventDefault();
         try {
-          await fetch('../api/login.php', {
+          await fetch('/backtoyou/Backend/api/login.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',

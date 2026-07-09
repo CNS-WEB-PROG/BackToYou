@@ -203,8 +203,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // Asynchronous Database Feed Ingestion REST Pipeline
   async function loadFromAPI() {
     try {
-      // Relative sub-directory path mapping configured to hit the proper API router
-      const res = await fetch('../api/items.php', { credentials: 'include' });
+      // Note: the real file is get_items.php (there is no items.php), and it
+      // lives under Backend/api, not Frontend/api.
+      const res = await fetch('/backtoyou/Backend/api/get_items.php', {
+        method: 'POST',
+        credentials: 'include'
+      });
       const data = await res.json();
      
       if (!data.success || !data.items || !data.items.length) {
