@@ -178,29 +178,49 @@ document.addEventListener('DOMContentLoaded', () => {
       const originalLabel = submitBtn.textContent;
       submitBtn.textContent = 'Posting…';
 
-      const formData = new FormData();
-      formData.append('category', selectedCategory);
-      formData.append('name', document.getElementById('item-name').value.trim());
-      formData.append('description', document.getElementById('item-desc').value.trim());
-      formData.append('location', document.getElementById('location').value);
-      formData.append('location_detail', document.getElementById('location-detail')?.value.trim() || '');
-      formData.append('date_found', document.getElementById(isFoundForm ? 'date-found' : 'date-lost').value);
-      formData.append('time_found', document.getElementById(isFoundForm ? 'time-found' : 'time-lost')?.value || '');
-     
-      if (isFoundForm) {
-        formData.append('current_status', document.getElementById('item-location').value);
-      }
-      if (selectedFile) {
-        formData.append('photo', selectedFile);
-      }
-
-      const endpoint = isFoundForm ? '../api/report-found.php' : '../api/report-lost.php';
-
       try {
-        const res = await fetch(endpoint, {
+        // Step 1: if a photo was picked, upload it first - upload.php only
+        // accepts multipart file uploads and hands back a photo_url that
+        // create_item.php can store.
+        let photo_path = '';
+        if (selectedFile) {
+          const uploadData = new FormData();
+          uploadData.append('photo', selectedFile);
+
+          const uploadRes = await fetch('/backtoyou/Backend/api/upload.php', {
+            method: 'POST',
+            credentials: 'include',
+            body: uploadData
+          });
+          const uploadResult = await uploadRes.json();
+
+          if (!uploadResult.success) {
+            throw new Error(uploadResult.error || 'Photo upload failed.');
+          }
+          photo_path = uploadResult.photo_url;
+        }
+
+        // Step 2: create the item. create_item.php expects JSON with these
+        // exact keys (type/category/title/description/location/
+        // location_detail/date_occurred/time_occurred/item_held_at/photo_path).
+        const payload = {
+          type: isFoundForm ? 'found' : 'lost',
+          category: selectedCategory,
+          title: document.getElementById('item-name').value.trim(),
+          description: document.getElementById('item-desc').value.trim(),
+          location: document.getElementById('location').value,
+          location_detail: document.getElementById('location-detail')?.value.trim() || '',
+          date_occurred: document.getElementById(isFoundForm ? 'date-found' : 'date-lost').value,
+          time_occurred: document.getElementById(isFoundForm ? 'time-found' : 'time-lost')?.value || '',
+          item_held_at: isFoundForm ? document.getElementById('item-location').value : '',
+          photo_path,
+        };
+
+        const res = await fetch('/backtoyou/Backend/api/create_item.php', {
           method: 'POST',
           credentials: 'include',
-          body: formData
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
         });
 
         const data = await res.json();
@@ -224,7 +244,7 @@ document.addEventListener('DOMContentLoaded', () => {
       } catch (err) {
         submitBtn.disabled = false;
         submitBtn.textContent = originalLabel;
-        alert('Network error — please verify connection parameters and try again.');
+        alert(err.message || 'Network error — please verify connection parameters and try again.');
       }
     });
   }
