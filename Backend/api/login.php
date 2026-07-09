@@ -30,7 +30,7 @@ try {
     }
 
     // Schema note: users.fullname (not "name")
-    $stmt = $pdo->prepare("SELECT id, fullname, password FROM users WHERE email = ?");
+    $stmt = $pdo->prepare("SELECT id, fullname, email, password FROM users WHERE email = ?");
     $stmt->execute([$email]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 

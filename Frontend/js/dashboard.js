@@ -5,12 +5,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelector('.dash-user__name').textContent = storedName;
   document.querySelector('.dash-user__avatar').textContent = initials;
-  document.querySelector('.nav__auth span').textContent = `Hi, ${firstName}`;
+  document.querySelector('.nav__auth span').textContent = Hi, {firstName};
 
   async function loadMyItems() {
     try {
-      const res = await fetch('../api/get_items.php', {
-        credentials: 'include'
+      const res = await fetch('../../Backend/api/get_items.php', {
+        credentials: 'include',
+        method: 'POST'
       });
       const data = await res.json();
       if (!data.success) return;
@@ -51,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="item-row__meta">📍 ${item.location} · Posted ${new Date(item.created_at).toLocaleDateString('en-GB', {day:'numeric',month:'short'})}</div>
               </div>
               <div class="item-row__actions">
-                <span class="item-card__badge item-card__badge--lost">Active</span>
+                <span class="item-card_badge item-card_badge--lost">Active</span>
               </div>
             </div>
           `);
@@ -84,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="item-row__meta">📍 ${item.location} · Posted ${new Date(item.created_at).toLocaleDateString('en-GB', {day:'numeric',month:'short'})}</div>
               </div>
               <div class="item-row__actions">
-                <span class="item-card__badge item-card__badge--found">Found</span>
+                <span class="item-card_badge item-card_badge--found">Found</span>
               </div>
             </div>
           `);
@@ -100,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
       link.addEventListener('click', async (e) => {
         e.preventDefault();
         try {
-          await fetch('../api/login.php', {
+          await fetch('../../Backend/api/login.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',

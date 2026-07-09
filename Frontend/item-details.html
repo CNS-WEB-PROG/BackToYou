@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Item Details — BackToYou</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <style>
+    .details-wrap { max-width: 720px; margin: 0 auto; padding: 40px 24px 64px; }
+    .details-card {
+      border: 1px solid var(--border, #e2e8f0);
+      border-radius: 12px;
+      padding: 28px;
+      background: #fff;
+    }
+    .details-card__header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .details-card__title { font-size: 1.4rem; font-weight: 700; margin: 12px 0 4px; }
+    .details-card__meta { color: var(--text-secondary, #4a5568); font-size: 0.9rem; margin-bottom: 4px; }
+    .details-card__desc { margin: 16px 0; line-height: 1.6; white-space: pre-line; }
+    .details-card__contact { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border, #e2e8f0); }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="../index.html" class="nav__logo">
+      <span class="nav__logo-icon"><i class="fa-solid fa-clipboard-list"></i></span>
+      BackToYou
+    </a>
+    <ul class="nav__links">
+      <li><a href="browse.html">Browse Items</a></li>
+      <li><a href="report-lost.html">Lost Something?</a></li>
+      <li><a href="report-found.html">Found Something?</a></li>
+    </ul>
+    <div class="nav__auth">
+      <a href="login.html" class="btn btn--ghost">Log in</a>
+      <a href="register.html" class="btn btn--primary">Sign up</a>
+    </div>
+    <button class="nav__hamburger" aria-label="Open menu">&#9776;</button>
+  </nav>
+
+  <div class="page-header">
+    <div class="page-header__inner">
+      <p class="page-header__breadcrumb"><a href="../index.html">Home</a> &rsaquo; <a href="browse.html">Browse</a> &rsaquo; Item</p>
+      <h1>Item details</h1>
+    </div>
+  </div>
+
+  <div class="details-wrap">
+    <div id="details-card" class="details-card">
+      <p>Loading…</p>
+    </div>
+  </div>
+
+  <footer class="footer" style="margin-top: 48px;">
+    <div class="footer__inner">
+      <div class="footer__logo">
+        <span class="footer__logo-icon"><i class="fa-solid fa-clipboard-list"></i></span>
+        BackToYou
+      </div>
+      <nav class="footer__links">
+        <a href="browse.html">Browse</a>
+        <a href="report-lost.html">Report Lost</a>
+        <a href="report-found.html">Report Found</a>
+        <a href="login.html">Log In</a>
+      </nav>
+      <p class="footer__copy">&copy; 2026 BackToYou. Built for schools.</p>
+    </div>
+  </footer>
+
+  <script src="../js/nav.js"></script>
+  <script src="../js/item-details.js"></script>
+  <script src="../js/auth.js"></script>
+</body>
+</html>

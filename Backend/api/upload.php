@@ -36,7 +36,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $destination = $uploadDir . $filename;
 
         if (move_uploaded_file($file['tmp_name'], $destination)) {
-            $publicUrl = '/backtoyou/Backend/uploads/' . $filename;
+            // Work out the project's actual base path from this script's own
+            // URL instead of hardcoding a folder name - this script always
+            // lives at <project-root>/Backend/api/upload.php, so strip that
+            // known suffix off SCRIPT_NAME to get <project-root>.
+            $scriptPath = $_SERVER['SCRIPT_NAME']; // e.g. /BackToYou/Backend/api/upload.php
+            $basePath = str_replace('/Backend/api/upload.php', '', $scriptPath);
+            $publicUrl = $basePath . '/Backend/uploads/' . $filename;
             echo json_encode(['success' => true, 'photo_url' => $publicUrl]);
         } else {
             echo json_encode(['success' => false, 'error' => 'Failed to write uploaded file to filesystem destination directory.']);

@@ -2,8 +2,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const storedName = sessionStorage.getItem("bty_name");
 
+    // auth.js is included on public pages (home, browse, report forms) as
+    // well as the protected dashboard. Only dashboard.html should force a
+    // logged-out visitor to the login page - everywhere else we just adjust
+    // the nav bar and let guests keep browsing.
+    const isDashboard = !!document.querySelector(".dash-user__name");
+
+    // Since this script is loaded both from Frontend/index.html (depth 0)
+    // and from Frontend/pages/*.html (depth 1), a single relative path to
+    // login.html can't be correct from both places. Work out which one we're on.
+    const inPagesFolder = window.location.pathname.includes("/pages/");
+    const loginPath = inPagesFolder ? "login.html" : "pages/login.html";
+    const backendPath = inPagesFolder ? "../../Backend/api/" : "../Backend/api/";
+
     if (!storedName) {
-        window.location.replace("pages/login.html");
+        if (isDashboard) {
+            window.location.replace(loginPath);
+        }
         return;
     }
 
@@ -17,6 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Replace login/signup with logged-in navigation
     const navAuth = document.querySelector(".nav__auth");
+    const dashboardPath = inPagesFolder ? "dashboard.html" : "pages/dashboard.html";
 
     if (navAuth) {
         navAuth.innerHTML = `
@@ -24,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 Hi, ${firstName}
             </span>
 
-            <a href="dashboard.html" class="btn btn--ghost">
+            <a href="${dashboardPath}" class="btn btn--ghost">
                 Dashboard
             </a>
 
@@ -50,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
             e.preventDefault();
 
             try {
-                await fetch("/backtoyou/Backend/api/login.php", {
+                await fetch(backendPath + "login.php", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
@@ -66,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             sessionStorage.clear();
 
-            window.location.href = "login.html";
+            window.location.href = loginPath;
         });
     }
 
