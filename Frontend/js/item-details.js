@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // There's no single-item endpoint, so we fetch the full list and find
       // the one we want - fine at this project's scale (a school's lost &
       // found), and keeps the backend surface small.
-      const res = await fetch('/backtoyou/Backend/api/get_items.php', {
+      const res = await fetch('../../Backend/api/get_items.php', {
         method: 'POST',
         credentials: 'include'
       });
