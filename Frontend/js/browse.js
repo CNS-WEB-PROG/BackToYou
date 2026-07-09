@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const searchCategorySelect = searchSelects[0] || null;
   const searchDateSelect = searchSelects[1] || null;
   const searchBtn = document.querySelector('.search-bar .btn--primary');
-  const sortSelect = document.querySelector('.browse-main__toolbar .search-bar__select');
+  const sortSelect = document.querySelector('.browse-main_toolbar .search-bar_select');
   const countLabel = document.querySelector('.browse-count strong');
   const filterGroups = document.querySelectorAll('.filter-group');
   const paginationContainer = document.querySelector('.pagination');
@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!raw) return new Date();
    
     const year = new Date().getFullYear();
-    const parsed = new Date(`${raw} ${year}`);
+    const parsed = new Date(${raw} ${year});
     return isNaN(parsed.getTime()) ? new Date() : parsed;
   }
 
@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const visibleCount = matchedCards.length;
-    if (countLabel) countLabel.textContent = `${visibleCount} item${visibleCount === 1 ? '' : 's'}`;
+    if (countLabel) countLabel.textContent = ${visibleCount} item${visibleCount === 1 ? '' : 's'};
     toggleEmptyState(visibleCount === 0);
 
     const totalPages = Math.ceil(visibleCount / ITEMS_PER_PAGE) || 1;
@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     for (let i = 1; i <= totalPages; i++) {
       const btn = document.createElement('button');
-      btn.className = `page-btn ${i === currentPage ? 'active' : ''}`;
+      btn.className = page-btn ${i === currentPage ? 'active' : ''};
       btn.textContent = i;
       btn.addEventListener('click', () => {
         currentPage = i;
@@ -205,7 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       // Note: the real file is get_items.php (there is no items.php), and it
       // lives under Backend/api, not Frontend/api.
-      const res = await fetch('/backtoyou/Backend/api/get_items.php', {
+      const res = await fetch('../../Backend/api/get_items.php', {
         method: 'POST',
         credentials: 'include'
       });
@@ -231,7 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return `
           <article class="item-card ${isLost ? 'item-card--lost' : 'item-card--found'}">
             <div class="item-card__header">
-              <span class="item-card__badge ${isLost ? 'item-card__badge--lost' : 'item-card__badge--found'}">
+              <span class="item-card_badge ${isLost ? 'item-cardbadge--lost' : 'item-card_badge--found'}">
                 ${isLost ? 'Lost' : 'Found'}
               </span>
               <span class="item-card__date">${date}</span>
