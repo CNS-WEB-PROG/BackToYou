@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loginBtn.textContent = 'Logging in…';
 
     try {
-      const res = await fetch('/../Backend/api/login.php', {
+      const res = await fetch('../../Backend/api/login.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',

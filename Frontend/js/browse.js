@@ -205,7 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       // Note: the real file is get_items.php (there is no items.php), and it
       // lives under Backend/api, not Frontend/api.
-      const res = await fetch('/backtoyou/Backend/api/get_items.php', {
+      const res = await fetch('../../Backend/api/get_items.php', {
         method: 'POST',
         credentials: 'include'
       });

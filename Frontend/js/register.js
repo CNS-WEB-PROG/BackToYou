@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     registerBtn.textContent = 'Creating account…';
 
     try {
-      const res = await fetch('/backtoyou/Backend/api/register.php', {
+      const res = await fetch('../../Backend/api/register.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
