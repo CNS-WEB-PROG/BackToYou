@@ -9,11 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function loadMyItems() {
     try {
-<<<<<<< HEAD
-      const res = await fetch('/backtoyou/Backend/api/get_items.php', {
-=======
       const res = await fetch('../../Backend/api/get_items.php', {
->>>>>>> 49a37c001bc427a6510cce0cf4f91117388ff749
         credentials: 'include',
         method: 'POST'
       });
@@ -105,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
       link.addEventListener('click', async (e) => {
         e.preventDefault();
         try {
-          await fetch('/backtoyou/Backend/api/login.php', {
+          await fetch('../../Backend/api/login.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
