@@ -187,7 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const uploadData = new FormData();
           uploadData.append('photo', selectedFile);
 
-          const uploadRes = await fetch('/backtoyou/Backend/api/upload.php', {
+          const uploadRes = await fetch('../../Backend/api/upload.php', {
             method: 'POST',
             credentials: 'include',
             body: uploadData
@@ -216,7 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
           photo_path,
         };
 
-        const res = await fetch('/backtoyou/Backend/api/create_item.php', {
+        const res = await fetch('../../Backend/api/create_item.php', {
           method: 'POST',
           credentials: 'include',
           headers: { 'Content-Type': 'application/json' },
