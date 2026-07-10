@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // the one we want - fine at this project's scale (a school's lost &
       // found), and keeps the backend surface small.
       const res = await fetch('../../Backend/api/get_items.php', {
-        method: 'POST',
+        method: 'GET',
         credentials: 'include'
       });
       const data = await res.json();
@@ -34,13 +34,15 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       const isLost = item.type === 'lost';
-      const date = new Date(item.date_occurred + 'T00:00:00')
-        .toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+      const dateStr = item.date_occurred || item.created_at || '';
+      const date = dateStr
+          ? new Date(dateStr.slice(0,10) + 'T00:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
+          : 'Date unknown';
       const loc = [item.location, item.location_detail].filter(Boolean).join(' — ');
 
       card.innerHTML = `
         <div class="details-card__header">
-          <span class="item-card_badge ${isLost ? 'item-cardbadge--lost' : 'item-card_badge--found'}">
+          <span class="item-card__badge ${isLost ? 'item-cardbadge--lost' : 'item-card_badge--found'}">
             ${isLost ? 'Lost' : 'Found'}
           </span>
           <span class="item-card__date">${date}</span>

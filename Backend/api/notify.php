@@ -23,7 +23,7 @@ function sendMatchNotification(
       <p style='margin-top:20px;'><a href='" . SITE_URL . "' style='background:#1e3a5f;color:#fff;padding:12px 24px;border-radius:6px;text-decoration:none;display:inline-block;font-weight:bold;'>View on BackToYou →</a></p>
     </div>";
 
-    $logDir = _DIR_ . '/../../logs';
+    $logDir = __DIR__ . '/../../logs';
     if (!is_dir($logDir)) { @mkdir($logDir, 0755, true); }
     $logFile = $logDir . '/mail.log';
 

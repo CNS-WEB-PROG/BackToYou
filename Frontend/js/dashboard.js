@@ -5,13 +5,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelector('.dash-user__name').textContent = storedName;
   document.querySelector('.dash-user__avatar').textContent = initials;
-  document.querySelector('.nav__auth span').textContent = Hi, {firstName};
+  document.querySelector('.nav__auth span').textContent = `Hi, ${firstName}`;
 
   async function loadMyItems() {
     try {
-      const res = await fetch('../../Backend/api/get_items.php', {
+      const res = await fetch('/backtoyou/Backend/api/get_items.php', {
         credentials: 'include',
-        method: 'POST'
+        method: 'GET'
       });
       const data = await res.json();
       if (!data.success) return;
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="item-row__meta">📍 ${item.location} · Posted ${new Date(item.created_at).toLocaleDateString('en-GB', {day:'numeric',month:'short'})}</div>
               </div>
               <div class="item-row__actions">
-                <span class="item-card_badge item-card_badge--lost">Active</span>
+                <span class="item-card__badge item-card__badge--lost">Active</span>
               </div>
             </div>
           `);
@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="item-row__meta">📍 ${item.location} · Posted ${new Date(item.created_at).toLocaleDateString('en-GB', {day:'numeric',month:'short'})}</div>
               </div>
               <div class="item-row__actions">
-                <span class="item-card_badge item-card_badge--found">Found</span>
+                <span class="item-card__badge item-card__badge--found">Found</span>
               </div>
             </div>
           `);
@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
       link.addEventListener('click', async (e) => {
         e.preventDefault();
         try {
-          await fetch('../../Backend/api/login.php', {
+          await fetch('/backtoyou/Backend/api/login.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
@@ -117,4 +117,66 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   loadMyItems();
+
+  // ── Load real match alerts ─────────────────────────────────────────────────
+  async function loadMatches() {
+    try {
+      const res  = await fetch('/backtoyou/Backend/api/get_matches.php', {
+        method: 'GET',
+        credentials: 'include'
+      });
+      const data = await res.json();
+
+      const matchCard = document.getElementById('matches');
+      if (!matchCard) return;
+
+      // Remove hardcoded placeholder alerts
+      matchCard.querySelectorAll('.match-alert').forEach(a => a.remove());
+
+      const matchHeader = matchCard.querySelector('.dash-card__header span:last-child');
+      const statNums    = document.querySelectorAll('.dash-stat__num');
+
+      if (!data.success || !data.matches || data.matches.length === 0) {
+        if (matchHeader) matchHeader.textContent = '0 new';
+        if (statNums[2]) statNums[2].textContent = '0';
+        matchCard.insertAdjacentHTML('beforeend',
+          `<div style="padding:24px;text-align:center;color:var(--text-muted);font-size:0.85rem;">
+             No matches yet — post an item to get started.
+           </div>`
+        );
+        return;
+      }
+
+      if (matchHeader) matchHeader.textContent = `${data.matches.length} new`;
+      if (statNums[2]) statNums[2].textContent = data.matches.length;
+
+      data.matches.forEach(match => {
+        const time = new Date(match.created_at)
+          .toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+        matchCard.insertAdjacentHTML('beforeend', `
+          <div class="match-alert">
+            <div class="match-alert__icon"><i class="fa-solid fa-link"></i></div>
+            <div class="match-alert__body">
+              <div class="match-alert__title">
+                Possible match: "${match.lost_title}" ↔ "${match.found_title}"
+              </div>
+              <div class="match-alert__desc">
+                Lost at ${match.lost_location} · Found at ${match.found_location}
+              </div>
+              <div class="match-alert__time">${time}</div>
+            </div>
+            <div style="display:flex;gap:6px;">
+              <a href="item-details.html?id=${match.lost_id}"  class="btn btn--sm btn--ghost">Lost</a>
+              <a href="item-details.html?id=${match.found_id}" class="btn btn--sm btn--found">Found</a>
+            </div>
+          </div>
+        `);
+      });
+
+    } catch (err) {
+      console.error('Could not load matches:', err);
+    }
+  }
+
+  loadMatches();
 });

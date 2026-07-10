@@ -10,12 +10,25 @@ function findAndStoreMatches(array $newItem, PDO $pdo): void {
 
     // No category column in the locked schema, so matching runs on title
     // similarity only, against open items of the opposite type.
+    // Change 'title' to 'item_name' and 'type' to 'item_type'
     $stmt = $pdo->prepare("
-        SELECT id, user_id, item_name
-        FROM items
-        WHERE item_type = ?
-          AND status = 'open'
-          AND id != ?
+        SELECT
+            i.id,
+            i.item_name   AS title,
+            i.description,
+            i.location,
+            i.user_id,
+            u.fullname    AS poster_name,
+            u.email       AS poster_email,
+            MATCH(i.item_name, i.description)
+                AGAINST(? IN NATURAL LANGUAGE MODE) AS score
+        FROM items i
+        JOIN users u ON u.id = i.user_id
+        WHERE i.item_type = ?
+        AND   i.status    = 'open'
+        AND   MATCH(i.item_name, i.description) AGAINST(? IN NATURAL LANGUAGE MODE) > 0
+        ORDER BY score DESC
+        LIMIT 5
     ");
     $stmt->execute([$oppositeType, $newItemId]);
     $potentialMatches = $stmt->fetchAll(PDO::FETCH_ASSOC);

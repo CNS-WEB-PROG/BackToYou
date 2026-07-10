@@ -66,3 +66,18 @@ CREATE TABLE IF NOT EXISTS notifications (
 
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Add FULLTEXT index for matching
+ALTER TABLE items ADD FULLTEXT INDEX ft_search (item_name, description);
+
+-- Add matches table
+CREATE TABLE IF NOT EXISTS matches (
+    id            INT AUTO_INCREMENT PRIMARY KEY,
+    lost_item_id  INT NOT NULL,
+    found_item_id INT NOT NULL,
+    score         FLOAT        NOT NULL DEFAULT 0,
+    notified      TINYINT(1)   NOT NULL DEFAULT 0,
+    created_at    TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_match_lost  FOREIGN KEY (lost_item_id)  REFERENCES items(id) ON DELETE CASCADE,
+    CONSTRAINT fk_match_found FOREIGN KEY (found_item_id) REFERENCES items(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

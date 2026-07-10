@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>My Dashboard — BackToYou</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <link rel="stylesheet" href="../css/style.css" />
   <style>
@@ -19,6 +22,7 @@
       gap: 24px;
       align-items: start;
     }
+
     .dash-sidebar {
       display: flex;
       flex-direction: column;
@@ -26,6 +30,7 @@
       position: sticky;
       top: 80px;
     }
+
     .dash-user {
       background: var(--surface);
       border-radius: var(--radius-md);
@@ -34,8 +39,10 @@
       text-align: center;
       margin-bottom: 4px;
     }
+
     .dash-user__avatar {
-      width: 56px; height: 56px;
+      width: 56px;
+      height: 56px;
       border-radius: 50%;
       background: var(--gold);
       display: flex;
@@ -47,17 +54,20 @@
       font-weight: 800;
       color: var(--navy);
     }
+
     .dash-user__name {
       font-family: var(--font-display);
       font-weight: 700;
       font-size: 0.95rem;
       color: var(--text-primary);
     }
+
     .dash-user__grade {
       font-size: 0.78rem;
       color: var(--text-muted);
       margin-top: 2px;
     }
+
     .dash-nav-link {
       display: flex;
       align-items: center;
@@ -75,30 +85,49 @@
       transition: background 0.15s, color 0.15s;
       text-decoration: none;
     }
-    .dash-nav-link:hover { background: var(--surface); color: var(--navy); }
+
+    .dash-nav-link:hover {
+      background: var(--surface);
+      color: var(--navy);
+    }
+
     .dash-nav-link.active {
       background: var(--navy);
       color: #fff;
       font-weight: 600;
     }
-    .dash-nav-link__icon { font-size: 1rem; width: 20px; text-align: center; }
+
+    .dash-nav-link__icon {
+      font-size: 1rem;
+      width: 20px;
+      text-align: center;
+    }
+
     .dash-nav-divider {
       height: 1px;
       background: var(--border);
       margin: 6px 0;
     }
-    .dash-main { display: flex; flex-direction: column; gap: 24px; }
+
+    .dash-main {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
     .dash-stats {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 14px;
     }
+
     .dash-stat {
       background: var(--surface);
       border-radius: var(--radius-md);
       padding: 20px;
       box-shadow: var(--shadow-card);
     }
+
     .dash-stat__label {
       font-size: 0.75rem;
       font-weight: 600;
@@ -107,6 +136,7 @@
       color: var(--text-muted);
       margin-bottom: 6px;
     }
+
     .dash-stat__num {
       font-family: var(--font-display);
       font-size: 1.8rem;
@@ -114,19 +144,28 @@
       color: var(--navy);
       line-height: 1;
     }
+
     .dash-stat__sub {
       font-size: 0.75rem;
       color: var(--text-muted);
       margin-top: 4px;
     }
-    .dash-stat--match .dash-stat__num { color: var(--found-accent); }
-    .dash-stat--lost  .dash-stat__num { color: var(--lost-accent); }
+
+    .dash-stat--match .dash-stat__num {
+      color: var(--found-accent);
+    }
+
+    .dash-stat--lost .dash-stat__num {
+      color: var(--lost-accent);
+    }
+
     .dash-card {
       background: var(--surface);
       border-radius: var(--radius-md);
       box-shadow: var(--shadow-card);
       overflow: hidden;
     }
+
     .dash-card__header {
       display: flex;
       align-items: center;
@@ -134,12 +173,14 @@
       padding: 18px 20px;
       border-bottom: 1px solid var(--border);
     }
+
     .dash-card__title {
       font-family: var(--font-display);
       font-size: 0.95rem;
       font-weight: 700;
       color: var(--navy);
     }
+
     .item-row {
       display: flex;
       align-items: center;
@@ -148,8 +189,15 @@
       border-bottom: 1px solid var(--border);
       transition: background 0.12s;
     }
-    .item-row:last-child { border-bottom: none; }
-    .item-row:hover { background: var(--bg); }
+
+    .item-row:last-child {
+      border-bottom: none;
+    }
+
+    .item-row:hover {
+      background: var(--bg);
+    }
+
     .item-row__emoji {
       font-size: 1.3rem;
       width: 40px;
@@ -157,7 +205,12 @@
       flex-shrink: 0;
       color: var(--text-secondary);
     }
-    .item-row__info { flex: 1; min-width: 0; }
+
+    .item-row__info {
+      flex: 1;
+      min-width: 0;
+    }
+
     .item-row__title {
       font-weight: 600;
       font-size: 0.875rem;
@@ -166,16 +219,19 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
+
     .item-row__meta {
       font-size: 0.75rem;
       color: var(--text-muted);
       margin-top: 2px;
     }
+
     .item-row__actions {
       display: flex;
       gap: 6px;
       flex-shrink: 0;
     }
+
     .match-alert {
       display: flex;
       align-items: flex-start;
@@ -184,38 +240,65 @@
       border-bottom: 1px solid var(--border);
       background: var(--found-bg);
     }
-    .match-alert:last-child { border-bottom: none; }
-    .match-alert__icon { font-size: 1.3rem; flex-shrink: 0; color: var(--found-accent); width: 24px; text-align: center; }
-    .match-alert__body { flex: 1; }
+
+    .match-alert:last-child {
+      border-bottom: none;
+    }
+
+    .match-alert__icon {
+      font-size: 1.3rem;
+      flex-shrink: 0;
+      color: var(--found-accent);
+      width: 24px;
+      text-align: center;
+    }
+
+    .match-alert__body {
+      flex: 1;
+    }
+
     .match-alert__title {
       font-weight: 600;
       font-size: 0.875rem;
       color: var(--found-accent);
     }
+
     .match-alert__desc {
       font-size: 0.78rem;
       color: var(--text-secondary);
       margin-top: 3px;
       line-height: 1.5;
     }
+
     .match-alert__time {
       font-size: 0.72rem;
       color: var(--text-muted);
       margin-top: 5px;
     }
+
     .dash-empty {
       padding: 40px 20px;
       text-align: center;
       color: var(--text-muted);
     }
-    .dash-empty__icon { font-size: 2rem; margin-bottom: 8px; }
-    .dash-empty p { font-size: 0.85rem; margin-bottom: 14px; }
+
+    .dash-empty__icon {
+      font-size: 2rem;
+      margin-bottom: 8px;
+    }
+
+    .dash-empty p {
+      font-size: 0.85rem;
+      margin-bottom: 14px;
+    }
+
     .quick-actions {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
       padding: 16px 20px;
     }
+
     .quick-action {
       border: 1.5px solid var(--border);
       border-radius: var(--radius-md);
@@ -226,25 +309,56 @@
       text-decoration: none;
       display: block;
     }
-    .quick-action:hover { border-color: var(--navy); background: var(--bg); }
-    .quick-action__icon { font-size: 1.4rem; margin-bottom: 8px; color: var(--navy); }
+
+    .quick-action:hover {
+      border-color: var(--navy);
+      background: var(--bg);
+    }
+
+    .quick-action__icon {
+      font-size: 1.4rem;
+      margin-bottom: 8px;
+      color: var(--navy);
+    }
+
     .quick-action__label {
       font-size: 0.82rem;
       font-weight: 600;
       color: var(--navy);
     }
+
     @media (max-width: 768px) {
-      .dashboard-wrap { grid-template-columns: 1fr; }
-      .dash-sidebar { position: static; flex-direction: row; flex-wrap: wrap; }
-      .dash-user { width: 100%; }
-      .dash-stats { grid-template-columns: 1fr 1fr; }
+      .dashboard-wrap {
+        grid-template-columns: 1fr;
+      }
+
+      .dash-sidebar {
+        position: static;
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+
+      .dash-user {
+        width: 100%;
+      }
+
+      .dash-stats {
+        grid-template-columns: 1fr 1fr;
+      }
     }
+
     @media (max-width: 480px) {
-      .dash-stats { grid-template-columns: 1fr; }
-      .quick-actions { grid-template-columns: 1fr; }
+      .dash-stats {
+        grid-template-columns: 1fr;
+      }
+
+      .quick-actions {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
+
 <body>
 
   <nav class="nav">
@@ -282,7 +396,8 @@
       </a>
       <a href="#matches" class="dash-nav-link">
         <span class="dash-nav-link__icon"><i class="fa-solid fa-bell"></i></span> Matches &amp; Alerts
-        <span style="margin-left:auto; background:var(--lost-accent); color:#fff; font-size:0.65rem; font-weight:700; padding:2px 6px; border-radius:10px;">2</span>
+        <span
+          style="margin-left:auto; background:var(--lost-accent); color:#fff; font-size:0.65rem; font-weight:700; padding:2px 6px; border-radius:10px;">2</span>
       </a>
       <div class="dash-nav-divider"></div>
       <a href="#" class="dash-nav-link">
@@ -316,28 +431,6 @@
         <div class="dash-card__header">
           <span class="dash-card__title"><i class="fa-solid fa-bell" style="margin-right: 6px;"></i> Match alerts</span>
           <span style="font-size:0.75rem; color:var(--text-muted);">2 new</span>
-        </div>
-        <div class="match-alert">
-          <div class="match-alert__icon"><i class="fa-solid fa-bag-shopping"></i></div>
-          <div class="match-alert__body">
-            <div class="match-alert__title">Possible match for your lost backpack</div>
-            <div class="match-alert__desc">Someone found a navy blue JanSport near the gym. Matches your description — check it out.</div>
-            <div class="match-alert__time">2 hours ago</div>
-          </div>
-          <div>
-            <a href="browse.html" class="btn btn--sm btn--found">Review</a>
-          </div>
-        </div>
-        <div class="match-alert">
-          <div class="match-alert__icon"><i class="fa-solid fa-headphones"></i></div>
-          <div class="match-alert__body">
-            <div class="match-alert__title">Possible match for your lost AirPods</div>
-            <div class="match-alert__desc">A found posting for white AirPods from the library area was just added. Could be yours.</div>
-            <div class="match-alert__time">Yesterday</div>
-          </div>
-          <div>
-            <a href="browse.html" class="btn btn--sm btn--found">Review</a>
-          </div>
         </div>
       </div>
 
@@ -401,4 +494,5 @@
   <script src="../js/dashboard.js"></script>
 
 </body>
+
 </html>

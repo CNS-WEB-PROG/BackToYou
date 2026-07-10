@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!raw) return new Date();
    
     const year = new Date().getFullYear();
-    const parsed = new Date(${raw} ${year});
+    const parsed = new Date('${raw} ${year}');
     return isNaN(parsed.getTime()) ? new Date() : parsed;
   }
 
@@ -112,8 +112,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const visibleCount = matchedCards.length;
-    if (countLabel) countLabel.textContent = ${visibleCount} item${visibleCount === 1 ? '' : 's'};
-    toggleEmptyState(visibleCount === 0);
+    if (countLabel) countLabel.textContent = `${visibleCount} item${visibleCount === 1 ? '' : 's'}`;
+        toggleEmptyState(visibleCount === 0);
 
     const totalPages = Math.ceil(visibleCount / ITEMS_PER_PAGE) || 1;
     if (currentPage > totalPages) currentPage = totalPages;
@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     for (let i = 1; i <= totalPages; i++) {
       const btn = document.createElement('button');
-      btn.className = page-btn ${i === currentPage ? 'active' : ''};
+      btn.className = `page-btn ${i === currentPage ? 'active' : ''}`;
       btn.textContent = i;
       btn.addEventListener('click', () => {
         currentPage = i;
@@ -205,8 +205,8 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       // Note: the real file is get_items.php (there is no items.php), and it
       // lives under Backend/api, not Frontend/api.
-      const res = await fetch('../../Backend/api/get_items.php', {
-        method: 'POST',
+      const res = await fetch('/backtoyou/Backend/api/get_items.php', {
+        method: 'GET',
         credentials: 'include'
       });
       const data = await res.json();
@@ -221,17 +221,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const isLost = item.type === 'lost';
        
         // Standardize dynamic dates explicitly using ISO bounds safely
-        const date = new Date(item.date_occurred + 'T00:00:00')
-                       .toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+        const dateStr = item.date_occurred || item.created_at || '';
+        const date = dateStr
+            ? new Date(dateStr.slice(0,10) + 'T00:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })
+            : '';
        
         // Match icon dictionary safely
-        const icon = ICONS[item.category.toLowerCase().trim()] || '<i class="fas fa-box" style="color: #718096;"></i>';
+        const icon = ICONS[(item.category || '').toLowerCase().trim()] || '<i class="fas fa-box" style="color: #718096;"></i>';
         const loc = [item.location, item.location_detail].filter(Boolean).join(' — ');
        
         return `
           <article class="item-card ${isLost ? 'item-card--lost' : 'item-card--found'}">
             <div class="item-card__header">
-              <span class="item-card_badge ${isLost ? 'item-cardbadge--lost' : 'item-card_badge--found'}">
+              <span class="item-card__badge ${isLost ? 'item-cardbadge--lost' : 'item-card_badge--found'}">
                 ${isLost ? 'Lost' : 'Found'}
               </span>
               <span class="item-card__date">${date}</span>
