@@ -22,10 +22,18 @@ backtoyou/
 │   └── style.css                 # Global styling layout rules
 │
 ├── js/
-│   └── main.js                   # Unified validation, filtering & feed engine
+│   ├── auth.js                   # Unified validation, filtering & feed engine
+│   ├── browse.js                 
+│   ├── dashboard.js              
+│   ├── item-details.js
+│   ├── login.js
+│   ├── nav.js
+│   ├── register.js
+│   ├── report-form.js
 │
 ├── pages/
 │   ├── browse.html               # Paginated system item feed
+│   ├── item-details.html         # Individual item information
 │   ├── dashboard.html            # User account personal listings management
 │   ├── login.html                # Security portal entrance
 │   ├── register.html             # Account processing registration form
@@ -35,6 +43,12 @@ backtoyou/
 ├── api/
 │   ├── config.php                # Global database connection initialization
 │   ├── items.php                 # Ingestion and feed query logic handlers
+│   ├── create_item.php           # Item creation
+│   ├── get_items.php             # Extarcts all the items lost or found
+│   ├── get_item.php              # Extracts an individual item's information
+│   ├── get_matches.php           
+│   ├── match_items.php           # Match lost items with what has been found
+│   ├── notify.php                # Email nnotifications(not working)
 │   ├── login.php                 # User authentication session gate
 │   ├── register.php              # Account verification execution pipeline
 │   └── upload.php                # Binary image processing utility
