@@ -151,27 +151,24 @@ document.addEventListener('DOMContentLoaded', () => {
       if (statNums[2]) statNums[2].textContent = data.matches.length;
 
       data.matches.forEach(match => {
-        const time = new Date(match.created_at)
-          .toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
-        matchCard.insertAdjacentHTML('beforeend', `
-          <div class="match-alert">
-            <div class="match-alert__icon"><i class="fa-solid fa-link"></i></div>
-            <div class="match-alert__body">
-              <div class="match-alert__title">
-                Possible match: "${match.lost_title}" ↔ "${match.found_title}"
+          const time = new Date(match.created_at)
+              .toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+          const isRead = match.is_read == 1;
+          matchCard.insertAdjacentHTML('beforeend', `
+              <div class="match-alert" style="${isRead ? 'opacity:0.6;' : ''}">
+                  <div class="match-alert__icon"><i class="fa-solid fa-link"></i></div>
+                  <div class="match-alert__body">
+                      <div class="match-alert__title">Possible match found</div>
+                      <div class="match-alert__desc">${match.message}</div>
+                      <div class="match-alert__time">${time}</div>
+                  </div>
+                  <div>
+                      <a href="browse.html" class="btn btn--sm btn--found">Review</a>
+                  </div>
               </div>
-              <div class="match-alert__desc">
-                Lost at ${match.lost_location} · Found at ${match.found_location}
-              </div>
-              <div class="match-alert__time">${time}</div>
-            </div>
-            <div style="display:flex;gap:6px;">
-              <a href="item-details.html?id=${match.lost_id}"  class="btn btn--sm btn--ghost">Lost</a>
-              <a href="item-details.html?id=${match.found_id}" class="btn btn--sm btn--found">Found</a>
-            </div>
-          </div>
-        `);
+          `);
       });
+
 
     } catch (err) {
       console.error('Could not load matches:', err);

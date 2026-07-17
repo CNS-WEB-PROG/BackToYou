@@ -1,22 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BackToYou — School Lost & Found</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <link rel="stylesheet" href="css/style.css" />
   <style>
-    .recent-section { padding: 56px 0; }
-    .recent-section__header {
-      display: flex; align-items: center;
-      justify-content: space-between; margin-bottom: 24px;
+    .recent-section {
+      padding: 56px 0;
     }
-    .how-section { padding: 56px 0; background: var(--surface); }
-    .home-main { padding: 0 24px; }
+
+    .recent-section__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+
+    .how-section {
+      padding: 56px 0;
+      background: var(--surface);
+    }
+
+    .home-main {
+      padding: 0 24px;
+    }
   </style>
 </head>
 
@@ -43,11 +58,13 @@
     <div class="container">
       <p class="hero__tag"><i class="fa-solid fa-school"></i> Your school's lost &amp; found — online</p>
       <h1 class="hero__headline">Lost your stuff?<br /><em>Let's find it.</em></h1>
-      <p class="hero__sub">BackToYou connects students and staff who've lost something with those who've found it. Post in seconds, get notified when there's a match.</p>
+      <p class="hero__sub">BackToYou connects students and staff who've lost something with those who've found it. Post
+        in seconds, get notified when there's a match.</p>
       <div class="hero__actions">
         <a href="pages/report-lost.html" class="btn btn--gold btn--lg">I lost something</a>
         <a href="pages/report-found.html" class="btn btn--gold btn--lg">I found something</a>
-        <a href="pages/browse.html" class="btn btn--gold btn--lg" style="border-color:rgba(255,255,255,0.3);">Browse all items</a>
+        <a href="pages/browse.html" class="btn btn--gold btn--lg" style="border-color:rgba(255,255,255,0.3);">Browse all
+          items</a>
       </div>
     </div>
   </section>
@@ -83,72 +100,8 @@
         <a href="pages/browse.html" class="link-arrow">View all →</a>
       </div>
 
-      <div class="items-grid">
-
-        <article class="item-card item-card--lost">
-          <div class="item-card__header">
-            <span class="item-card__badge item-card__badge--lost">Lost</span>
-            <span class="item-card__date">Jun 19</span>
-          </div>
-          <div class="item-card__emoji"><i class="fa-solid fa-bag-shopping"></i></div>
-          <div class="item-card__body">
-            <h3 class="item-card__title">Blue JanSport backpack</h3>
-            <p class="item-card__location"><i class="fa-solid fa-location-dot"></i> Room 204 / 2nd Floor Hallway</p>
-            <p class="item-card__desc">Navy blue JanSport, has a small Iron Man keychain on the zipper. Missing since Tuesday afternoon.</p>
-            <div class="item-card__footer">
-              <a href="pages/browse.html" class="btn btn--sm btn--ghost btn--block">View &amp; Contact</a>
-            </div>
-          </div>
-        </article>
-
-        <article class="item-card item-card--found">
-          <div class="item-card__header">
-            <span class="item-card__badge item-card__badge--found">Found</span>
-            <span class="item-card__date">Jun 18</span>
-          </div>
-          <div class="item-card__emoji"><i class="fa-solid fa-mobile-screen-button"></i></div>
-          <div class="item-card__body">
-            <h3 class="item-card__title">iPhone — black &amp; white case</h3>
-            <p class="item-card__location"><i class="fa-solid fa-location-dot"></i> Cafeteria, near the exit</p>
-            <p class="item-card__desc">Found an iPhone with a black and white geometric case. Turned in to the main office.</p>
-            <div class="item-card__footer">
-              <a href="pages/browse.html" class="btn btn--sm btn--ghost btn--block">View &amp; Contact</a>
-            </div>
-          </div>
-        </article>
-
-        <article class="item-card item-card--found">
-          <div class="item-card__header">
-            <span class="item-card__badge item-card__badge--found">Found</span>
-            <span class="item-card__date">Jun 18</span>
-          </div>
-          <div class="item-card__emoji"><i class="fa-solid fa-key"></i></div>
-          <div class="item-card__body">
-            <h3 class="item-card__title">Set of keys — 3 keys + fob</h3>
-            <p class="item-card__location"><i class="fa-solid fa-location-dot"></i> Gym locker room</p>
-            <p class="item-card__desc">Three keys on a ring with a blue lanyard and a small bottle opener. Left in the locker room.</p>
-            <div class="item-card__footer">
-              <a href="pages/browse.html" class="btn btn--sm btn--ghost btn--block">View &amp; Contact</a>
-            </div>
-          </div>
-        </article>
-
-        <article class="item-card item-card--lost">
-          <div class="item-card__header">
-            <span class="item-card__badge item-card__badge--lost">Lost</span>
-            <span class="item-card__date">Jun 17</span>
-          </div>
-          <div class="item-card__emoji"><i class="fa-solid fa-headphones"></i></div>
-          <div class="item-card__body">
-            <h3 class="item-card__title">AirPods — white, no case</h3>
-            <p class="item-card__location"><i class="fa-solid fa-location-dot"></i> Library or 3rd floor</p>
-            <p class="item-card__desc">Lost my AirPods (2nd gen) somewhere between the library and the 3rd floor stairs. One has a tiny scratch on it.</p>
-            <div class="item-card__footer">
-              <a href="pages/browse.html" class="btn btn--sm btn--ghost btn--block">View &amp; Contact</a>
-            </div>
-          </div>
-        </article>
-
+      <div class="items-grid" id="recent-items-grid">
+        <!----- dynamically loaded ----->
       </div>
     </section>
   </div>
@@ -161,12 +114,14 @@
         <div class="how-step">
           <div class="how-step__num">1</div>
           <h3 class="how-step__title">Post what you lost or found</h3>
-          <p class="how-step__desc">Add a description, where it happened, and optionally a photo. Takes about a minute.</p>
+          <p class="how-step__desc">Add a description, where it happened, and optionally a photo. Takes about a minute.
+          </p>
         </div>
         <div class="how-step">
           <div class="how-step__num">2</div>
           <h3 class="how-step__title">We check for matches</h3>
-          <p class="how-step__desc">BackToYou scans existing posts and notifies you when a lost and found item look like a match.</p>
+          <p class="how-step__desc">BackToYou scans existing posts and notifies you when a lost and found item look like
+            a match.</p>
         </div>
         <div class="how-step">
           <div class="how-step__num">3</div>
@@ -182,7 +137,8 @@
       <h2>Missing something?<br />Post it now — someone may have already found it.</h2>
       <div class="cta-banner__btns">
         <a href="pages/report-lost.html" class="btn btn--gold btn--lg">Report lost item</a>
-        <a href="pages/browse.html" class="btn btn--gold btn--lg" style="border-color:rgba(255,255,255,0.4);">Browse found items</a>
+        <a href="pages/browse.html" class="btn btn--gold btn--lg" style="border-color:rgba(255,255,255,0.4);">Browse
+          found items</a>
       </div>
     </div>
   </section>
@@ -203,7 +159,8 @@
       <p class="footer__copy">&copy; 2026 BackToYou. Built for schools.</p>
     </div>
   </footer>
-<script src="js/nav.js"></script>
-<script src="js/auth.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/auth.js"></script>
 </body>
+
 </html>

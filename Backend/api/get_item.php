@@ -49,9 +49,8 @@ try {
         exit;
     }
 
-    // Hide email from non-owners
-    $currentUserId = $_SESSION['user_id'] ?? 0;
-    if ((int)$item['user_id'] !== $currentUserId) {
+    // Show contact details to any logged-in user
+    if (!isset($_SESSION['user_id'])) {
         unset($item['poster_email']);
     }
 
